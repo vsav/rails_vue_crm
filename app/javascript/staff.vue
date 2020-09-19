@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <p>{{ message }}</p>
+    <a href="/staffs/sign_out" data-method="delete">Sign out</a>
   </div>
 </template>
 
@@ -8,7 +9,7 @@
 export default {
   data: function () {
     return {
-      message: "Hello Vue!"
+      message: "Hello Staff!"
     }
   }
 }
