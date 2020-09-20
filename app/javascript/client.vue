@@ -1,8 +1,7 @@
-<template>
-  <div id="app">
-    <p>{{ message }}</p>
-    <a href="/clients/sign_out" data-method="delete">Sign out</a>
-  </div>
+<template lang="pug">
+  #app
+    p {{ message }}
+    a(href="/clients/sign_out" data-method="delete") Sign out
 </template>
 
 <script>
