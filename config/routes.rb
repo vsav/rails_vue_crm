@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   namespace :staffs do
     root to: "home#index"
+    get "/profile", to: "home#profile"
   end
 
   namespace :api do
