@@ -16,16 +16,16 @@
 <script>
   export default {
     name: 'Navbar',
-    data: function () {
+    data: function() {
       return {
-        loading: true,
+        loading: false,
         error: false,
         profile: {},
         loadingMessage: "Loading...",
         navbarHeader: "STAFF",
       }
     },
-    created () {
+    created() {
       this.getStaffProfile()
     },
     methods: {
@@ -35,7 +35,7 @@
             .then(({data}) => {
               this.profile = data
             })
-            .catch((e) => this.error = true)
+            .catch(() => this.error = true)
             .finally(() => this.loading = false)
       }
     },
