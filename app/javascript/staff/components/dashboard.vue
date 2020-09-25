@@ -10,12 +10,12 @@
           small(v-if="errors.full_name") {{errors.full_name}}
         .form-group
           label(for="phone-number") Phone Number
-          input(v-model="client.phone", id="phone-number", @input="validatePhone(client.phone)", placeholder="223322")
+          input(v-model="client.phone", id="phone-number", @input="validatePhone(client.phone)", @blur="validateUniqueness(client.phone)" placeholder="223322")
           br/
           small(v-if="errors.phone") {{errors.phone}}
         .form-group
           label(for="email") Email
-          input(v-model="client.email", id="email", type="email", @input="validateEmail(client.email)", placeholder="john@domain.com")
+          input(v-model="client.email", id="email", type="email", @input="validateEmail(client.email)", @blur="validateUniqueness(client.email)", placeholder="john@domain.com")
           br/
           small(v-if="errors.email") {{errors.email}}
         .form-group
@@ -134,6 +134,17 @@ export default {
         this.errors['password_confirmation'] = 'Password didn\'t match';
       }
     },
+    validateUniqueness() {
+      this.loading = true
+      const client = this.client
+      this.$api.clients.validate({client})
+          .then(({data}) => {
+            this.errors['phone'] = data.errors.phone
+            this.errors['email'] = data.errors.email
+          })
+          .catch((error) => this.errors['uniqueness'] = error)
+          .finally(() => this.loading = false)
+    },
     clearForm() {
       this.client.full_name = ''
       this.client.email = ''
@@ -163,6 +174,7 @@ export default {
     border-radius: 5px
 
   small
+    margin-left: 1em
     color: #ff0000
 
   .button
@@ -186,4 +198,7 @@ export default {
     margin: 2em auto
     font-size: 1.2em
     text-align: center
+
+  .border-red
+    border-color: red
 </style>
