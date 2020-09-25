@@ -1,4 +1,3 @@
-class StaffSerializer
-  include JSONAPI::Serializer
+class StaffSerializer < ActiveModel::Serializer
   attributes :id, :email
 end
