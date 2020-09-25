@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   namespace :staffs do
     root to: "home#index"
     get "/profile", to: "home#profile"
+    get "/clients_list", to: "home#clients_list"
+    post "/create_client", to: "home#create_client"
   end
 
   namespace :api do
