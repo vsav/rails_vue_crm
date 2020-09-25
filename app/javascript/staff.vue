@@ -1,22 +1,17 @@
 <template lang="pug">
   #app
-    p {{ message }}
-    a(href="/staffs/sign_out" data-method="delete") Sign out
+    navbar
+    dashboard
 </template>
 
 <script>
-export default {
-  data: function () {
-    return {
-      message: "Hello Staff!"
+  import Navbar from './staff/components/navbar.vue'
+  import Dashboard from './staff/components/dashboard'
+
+  export default {
+    components: {
+      Navbar,
+      Dashboard
     }
   }
-}
 </script>
-
-<style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
-}
-</style>
