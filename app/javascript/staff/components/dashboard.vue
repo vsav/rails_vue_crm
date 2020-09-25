@@ -1,57 +1,51 @@
 <template lang="pug">
   #dashboard
+    form(ref="createClientForm", id="create-client-form")
+      fieldset
+        legend Create New Client
+        .form-group
+          label(for="full-name") Full Name
+          input(v-model="client.full_name", id="full-name", @input="validateName(client.full_name)", placeholder="John Doe")
+          br/
+          small(v-if="errors.full_name") {{errors.full_name}}
+        .form-group
+          label(for="phone-number") Phone Number
+          input(v-model="client.phone", id="phone-number", @input="validatePhone(client.phone)", placeholder="223322")
+          br/
+          small(v-if="errors.phone") {{errors.phone}}
+        .form-group
+          label(for="email") Email
+          input(v-model="client.email", id="email", type="email", @input="validateEmail(client.email)", placeholder="john@domain.com")
+          br/
+          small(v-if="errors.email") {{errors.email}}
+        .form-group
+          label(for="password") Password
+          input(v-model="client.password", id="password", type="password", @input="validatePassword(client.password)")
+          br/
+          small(v-if="errors.password") {{errors.password}}
+        .form-group
+          label(for="password-confirmation") Password Confirmation
+          input(v-model="client.password_confirmation", id="password-confirmation", type="password", @input="validatePasswordConfirmation(client.password_confirmation)")
+          br/
+          small(v-if="errors.password_confirmation") {{errors.password_confirmation}}
+        button.create-button.button(@click.prevent="createClient()" type="button" :disabled="Object.keys(this.errors).length > 0") Create client
+
     template(v-if="loading")
       p Loading...
-    template(v-else-if="error")
-      p Something went wrong...
     template(v-else)
-      form(class="create-client-form")
-        fieldset
-          legend Create New Client
-          label(for="full-name") Full Name
-          input(v-model="client.full_name", id="full-name", placeholder="John Doe")
-          br/
-          small Name must contain minimum 5 characters
-          br/
-          br/
-          label(for="phone-number") Phone Number
-          input(v-model="client.phone", id="phone-number", placeholder="223322")
-          br/
-          small Phone number must contain only digits
-          br/
-          br/
-          label(for="email") Email
-          input(v-model="client.email", id="email", placeholder="john@domain.com")
-          br/
-          small Please enter valid email address
-          br/
-          br/
-          label(for="password") Password
-          input(v-model="client.password", id="password", type="password")
-          br/
-          small Please use strong password
-          br/
-          br/
-          label(for="password-confirmation") Password Confirmation
-          input(v-model="client.password_confirmation", id="password-confirmation", type="password")
-          br/
-          small Re-enter your password
-          button.create-button.button(@click="createClient") Create client
-                                      //:disabled="Object.keys(this.errors).length > 0")
-
-          table
-            thead Clients List
-              tr
-                th Id
-                th Full Name
-                th Phone Number
-                th Email
-            tbody
-              tr(v-for='client in clients' :key='client.id')
-                td {{ client.id }}
-                td {{ client.full_name }}
-                td {{ client.phone }}
-                td {{ client.email }}
+      table
+        thead Clients List
+          tr
+            th Id
+            th Full Name
+            th Phone Number
+            th Email
+        tbody
+          tr(v-for='client in clients' :key='client.id')
+            td {{ client.id }}
+            td {{ client.full_name }}
+            td {{ client.phone }}
+            td {{ client.email }}
 </template>
 
 <script>
@@ -60,7 +54,7 @@ export default {
   data: function () {
     return {
       loading: false,
-      error: false,
+      errors: {},
       clients: [],
       client: {
         full_name: '',
@@ -86,15 +80,52 @@ export default {
       this.loading = true
       const client = this.client
       this.$api.clients.create({client})
-          .then(({data}) => this.clients.push(data))
-          .catch(() => this.error = true)
-          .finally(() => this.loading = false)
-      this.clearForm()
+          .then(() => this.fetchClients())
+          .catch((error) => this.errors['create'] = error)
+          .finally(() => {
+            this.loading = false
+            this.clearForm()
+          })
+    },
+    validateName(value){
+      if (/^[a-z ,.'-]{5,}/i.test(value)) {
+        delete this.errors.full_name;
+      } else{
+        this.errors['full_name'] = 'Name must contain minimum 5 characters';
+      }
+    },
+    validateEmail(value){
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+        delete this.errors.email;
+      } else{
+        this.errors['email'] = 'Invalid Email Address';
+      }
+    },
+    validatePhone(value){
+      if (/^[\d]{5,}/i.test(value)) {
+        delete this.errors.phone;
+      } else{
+        this.errors['phone'] = 'Phone must contain only digits minimum 5 characters';
+      }
+    },
+    validatePassword(value){
+      if (/^[\w]{5,}/i.test(value)) {
+        delete this.errors.password;
+      } else{
+        this.errors['password'] = 'Password must contain minimum 5 characters';
+      }
+    },
+    validatePasswordConfirmation(value){
+      if (this.client.password === value) {
+        delete this.errors.password_confirmation;
+      } else{
+        this.errors['password_confirmation'] = 'Password didn\'t match';
+      }
     },
     clearForm() {
-      this.client.full_name =''
-      this.client.phone = ''
+      this.client.full_name = ''
       this.client.email = ''
+      this.client.phone = ''
       this.client.password = ''
       this.client.password_confirmation = ''
     }
@@ -106,7 +137,25 @@ export default {
   *
     padding: 0
     margin: 0
-  p
-    font-size: 2em
+
+  .form-group input
+    padding: .5em
+    margin: .5em
+    border-radius: 5px
+
+  small
+    color: red
+
+  .create-button
+    padding: .5em
+    margin: .5em
+    color: rgba(00, 80, 00, 1)
+    border-radius: 5px
+
+  .create-button:disabled
+    color: rgba(00, 80, 00, .5)
+
+  table
+    font-size: 1.2em
     text-align: center
 </style>
