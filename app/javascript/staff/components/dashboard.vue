@@ -76,7 +76,7 @@ export default {
       this.loading = true
       this.$api.clients.index()
           .then(({data}) => this.clients = data)
-          .catch(() => this.error = true)
+          .catch((error) => this.errors['fetch'] = error)
           .finally(() => this.loading = false)
     },
     createClient() {
@@ -127,7 +127,7 @@ export default {
         this.errors['password'] = 'Password must contain minimum 5 characters';
       }
     },
-    validatePasswordConfirmation(value){
+    validatePasswordConfirmation(value) {
       if (this.client.password === value) {
         delete this.errors.password_confirmation;
       } else{
