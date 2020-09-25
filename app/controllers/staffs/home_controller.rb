@@ -1,6 +1,6 @@
 class Staffs::HomeController < ApplicationController
   before_action :authenticate_staff!
-  skip_before_action :verify_authenticity_token, only: :create_client
+  skip_before_action :verify_authenticity_token, only: [:create_client, :delete_client]
 
   def index; end
 
@@ -14,13 +14,18 @@ class Staffs::HomeController < ApplicationController
   end
 
   def create_client
-    @client = Client.new(client_params)
+    client = Client.new(client_params)
 
-    if @client.save
-      render json: @client, serializer: ClientSerializer, status: :created
+    if client.save
+      render json: client, serializer: ClientSerializer, status: :created
     else
-      render json: { errors: @client.errors }, status: :unprocessable_entity
+      render json: { errors: client.errors }, status: :unprocessable_entity
     end
+  end
+
+  def delete_client
+    client = Client.find(params[:id])
+    client.destroy
   end
 
   private

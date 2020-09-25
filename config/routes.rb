@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get "/profile", to: "home#profile"
     get "/clients_list", to: "home#clients_list"
     post "/create_client", to: "home#create_client"
+    post "/delete_client", to: "home#delete_client"
   end
 
   namespace :api do
