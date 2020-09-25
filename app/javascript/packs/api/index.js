@@ -6,7 +6,8 @@ const api = {
   clients: {
     index: () => axios.get('/staffs/clients_list'),
     create: (client) => axios.post('/staffs/create_client', client),
-    delete: (id) => axios.post('/staffs/delete_client', id)
+    delete: (id) => axios.post('/staffs/delete_client', id),
+    validate: (client) => axios.post('/staffs/validate_uniqueness', client)
   }
 }
 

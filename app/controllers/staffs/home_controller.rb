@@ -1,6 +1,6 @@
 class Staffs::HomeController < ApplicationController
   before_action :authenticate_staff!
-  skip_before_action :verify_authenticity_token, only: [:create_client, :delete_client]
+  skip_before_action :verify_authenticity_token, only: [:create_client, :delete_client, :validate_uniqueness]
 
   def index; end
 
@@ -26,6 +26,23 @@ class Staffs::HomeController < ApplicationController
   def delete_client
     client = Client.find(params[:id])
     client.destroy
+  end
+
+  def validate_uniqueness
+    phone = Client.find_by(phone: client_params[:phone])
+    email = Client.find_by(email: client_params[:email])
+
+    if phone && email
+    render json: { errors: { phone: "Phone #{client_params[:phone]} already exists",
+                             email: "Email #{client_params[:email]} already exists" }
+    }
+    elsif phone
+      render json: { errors: { phone: "Phone #{client_params[:phone]} already exists" }}
+    elsif email
+      render json: { errors: { email: "Email #{client_params[:email]} already exists" }}
+    else
+      render json: {}
+    end
   end
 
   private

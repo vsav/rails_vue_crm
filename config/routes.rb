@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get "/clients_list", to: "home#clients_list"
     post "/create_client", to: "home#create_client"
     post "/delete_client", to: "home#delete_client"
+    post "/validate_uniqueness", to: "home#validate_uniqueness"
   end
 
   namespace :api do
