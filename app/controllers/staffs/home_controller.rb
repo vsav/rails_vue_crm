@@ -1,5 +1,6 @@
 class Staffs::HomeController < ApplicationController
   before_action :authenticate_staff!
+  skip_before_action :verify_authenticity_token, only: :create_client
 
   def index; end
 
