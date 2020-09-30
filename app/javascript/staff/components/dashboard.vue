@@ -106,6 +106,7 @@ export default {
         .then(() => this.fetchClients())
         .catch((error) => this.errors['delete'] = error)
         .finally(() => this.loading = false)
+
     },
     clearForm() {
       this.client.full_name = ''
@@ -136,6 +137,7 @@ export default {
     border-radius: 5px
 
   small
+    margin-left: 1em
     color: #ff0000
 
   .button
@@ -159,4 +161,7 @@ export default {
     margin: 2em auto
     font-size: 1.2em
     text-align: center
+
+  .border-red
+    border-color: red
 </style>
