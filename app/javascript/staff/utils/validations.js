@@ -41,7 +41,6 @@ function validatePasswordConfirmation(password, value, errors) {
 function validateUniqueness(client, errors) {
   this.$api.clients.validate(client)
     .then(({data}) => {
-      console.log(data)
       if(data.validations.phone) {
         errors['phone'] = data.validations.phone }
       else if(data.validations.email) {
