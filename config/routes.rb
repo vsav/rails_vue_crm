@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   namespace :staffs do
     root to: "home#index"
     get "/profile", to: "home#profile"
+    post "/validate", to: "clients#validate_uniqueness"
 
     resources :clients, only: [:index, :create, :destroy]
   end

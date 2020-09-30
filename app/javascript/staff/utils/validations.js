@@ -38,6 +38,21 @@ function validatePasswordConfirmation(password, value, errors) {
   }
 }
 
-export { validateName, validateEmail, validatePhone, validatePassword, validatePasswordConfirmation }
+function validateUniqueness(client, errors) {
+  this.$api.clients.validate(client)
+    .then(({data}) => {
+      console.log(data)
+      if(data.validations.phone) {
+        errors['phone'] = data.validations.phone }
+      else if(data.validations.email) {
+        errors['email'] = data.validations.email }
+      else {
+        delete errors['phone']
+        delete errors['email']
+      }
+    })
+}
+
+export { validateName, validateEmail, validatePhone, validatePassword, validatePasswordConfirmation, validateUniqueness }
 
 
