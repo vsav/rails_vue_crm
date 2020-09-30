@@ -5,27 +5,27 @@
         legend Create New Client
         .form-group
           label(for="full-name") Full Name
-          input(v-model="client.full_name", id="full-name", @input="validateName(client.full_name)", placeholder="John Doe")
+          input(v-model="client.full_name", id="full-name", @blur="validateName(client.full_name, errors)", placeholder="John Doe")
           br/
           small(v-if="errors.full_name") {{errors.full_name}}
         .form-group
           label(for="phone-number") Phone Number
-          input(v-model="client.phone", id="phone-number", @input="validatePhone(client.phone)", placeholder="223322")
+          input(v-model="client.phone", id="phone-number", @blur="validatePhone(client.phone, errors)" placeholder="223322")
           br/
           small(v-if="errors.phone") {{errors.phone}}
         .form-group
           label(for="email") Email
-          input(v-model="client.email", id="email", type="email", @input="validateEmail(client.email)", placeholder="john@domain.com")
+          input(v-model="client.email", id="email", type="email", @blur="validateEmail(client.email ,errors)", placeholder="john@domain.com")
           br/
           small(v-if="errors.email") {{errors.email}}
         .form-group
           label(for="password") Password
-          input(v-model="client.password", id="password", type="password", @input="validatePassword(client.password)")
+          input(v-model="client.password", id="password", type="password", @blur="validatePassword(client.password, errors)")
           br/
           small(v-if="errors.password") {{errors.password}}
         .form-group
           label(for="password-confirmation") Password Confirmation
-          input(v-model="client.password_confirmation", id="password-confirmation", type="password", @input="validatePasswordConfirmation(client.password_confirmation)")
+          input(v-model="client.password_confirmation", id="password-confirmation", type="password", @input="validatePasswordConfirmation(client.password, client.password_confirmation, errors)")
           br/
           small(v-if="errors.password_confirmation") {{errors.password_confirmation}}
         button.create-button.button(@click.prevent="createClient()" type="button" :disabled="Object.keys(this.errors).length > 0") Create client
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { validateName, validateEmail, validatePhone, validatePassword, validatePasswordConfirmation } from "../utils/validations"
+
 export default {
   name: 'Dashboard',
   data: function () {
@@ -64,8 +66,13 @@ export default {
         phone: '',
         email: '',
         password: '',
-        password_confirmation: '',
-      }
+        password_confirmation: ''
+      },
+      validateName,
+      validateEmail,
+      validatePhone,
+      validatePassword,
+      validatePasswordConfirmation
     }
   },
   created() {
@@ -92,47 +99,11 @@ export default {
     },
     deleteClient(client) {
       this.loading = true
-      const id = client.id
-      this.$api.clients.delete({id})
+      const client_id = client.id
+      this.$api.clients.delete(client_id)
         .then(() => this.fetchClients())
         .catch((error) => this.errors['delete'] = error)
         .finally(() => this.loading = false)
-
-    },
-    validateName(value){
-      if (/^[a-z ,.'-]{5,}/i.test(value)) {
-        delete this.errors.full_name;
-      } else{
-        this.errors['full_name'] = 'Name must contain minimum 5 characters';
-      }
-    },
-    validateEmail(value){
-      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-        delete this.errors.email;
-      } else{
-        this.errors['email'] = 'Invalid Email Address';
-      }
-    },
-    validatePhone(value){
-      if (/^[\d]{5,}/i.test(value)) {
-        delete this.errors.phone;
-      } else{
-        this.errors['phone'] = 'Phone must contain only digits minimum 5 characters';
-      }
-    },
-    validatePassword(value){
-      if (/^[\w]{5,}/i.test(value)) {
-        delete this.errors.password;
-      } else{
-        this.errors['password'] = 'Password must contain minimum 5 characters';
-      }
-    },
-    validatePasswordConfirmation(value) {
-      if (this.client.password === value) {
-        delete this.errors.password_confirmation;
-      } else{
-        this.errors['password_confirmation'] = 'Password didn\'t match';
-      }
     },
     clearForm() {
       this.client.full_name = ''
