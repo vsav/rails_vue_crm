@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   namespace :staffs do
     root to: "home#index"
+    get "/profile", to: "home#profile"
+
+    resources :clients, only: [:index, :create, :destroy]
   end
 
   namespace :api do

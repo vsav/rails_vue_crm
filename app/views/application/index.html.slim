@@ -1,0 +1,18 @@
+h1
+  | Welcome
+h3
+  | Staff
+- if current_staff
+  p
+  = link_to 'sign out', destroy_staff_session_path, method: :delete
+- else
+  p
+  = link_to 'sign in', new_staff_session_path
+h3
+  | Clients
+- if current_client
+  p
+  = link_to 'sign out', destroy_client_session_path, method: :delete
+- else
+  p
+  = link_to 'sign in', new_client_session_path
