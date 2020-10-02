@@ -5,30 +5,30 @@
         legend Create New Client
         .form-group
           label(for="full-name") Full Name
-          input(v-model="client.full_name", id="full-name", @blur="validateName(client.full_name, errors)", placeholder="John Doe")
+          input(v-model="client.full_name", id="full-name", @blur="validateName(client.full_name, validations)", placeholder="John Doe")
           br/
-          small(v-if="errors.full_name") {{errors.full_name}}
+          small(v-if="validations.full_name") {{validations.full_name}}
         .form-group
           label(for="phone-number") Phone Number
-          input(v-model="client.phone", id="phone-number", @blur="validatePhone(client.phone, errors)" placeholder="223322")
+          input(v-model="client.phone", id="phone-number", @blur="validatePhone(client.phone, validations), validateUniqueness(client, validations)" placeholder="223322")
           br/
-          small(v-if="errors.phone") {{errors.phone}}
+          small(v-if="validations.phone") {{validations.phone}}
         .form-group
           label(for="email") Email
-          input(v-model="client.email", id="email", type="email", @blur="validateEmail(client.email ,errors)", placeholder="john@domain.com")
+          input(v-model="client.email", id="email", type="email", @blur="validateEmail(client.email, validations), validateUniqueness(client, validations)", placeholder="john@domain.com")
           br/
-          small(v-if="errors.email") {{errors.email}}
+          small(v-if="validations.email") {{validations.email}}
         .form-group
           label(for="password") Password
-          input(v-model="client.password", id="password", type="password", @blur="validatePassword(client.password, errors)")
+          input(v-model="client.password", id="password", type="password", @blur="validatePassword(client.password, validations)")
           br/
-          small(v-if="errors.password") {{errors.password}}
+          small(v-if="validations.password") {{validations.password}}
         .form-group
           label(for="password-confirmation") Password Confirmation
-          input(v-model="client.password_confirmation", id="password-confirmation", type="password", @input="validatePasswordConfirmation(client.password, client.password_confirmation, errors)")
+          input(v-model="client.password_confirmation", id="password-confirmation", type="password", @input="validatePasswordConfirmation(client.password, client.password_confirmation, validations)")
           br/
-          small(v-if="errors.password_confirmation") {{errors.password_confirmation}}
-        button.create-button.button(@click.prevent="createClient()" type="button" :disabled="Object.keys(this.errors).length > 0") Create client
+          small(v-if="validations.password_confirmation") {{validations.password_confirmation}}
+        button.create-button.button(@click.prevent="createClient()" type="button" :disabled="Object.keys(this.validations).length > 0") Create client
 
     template(v-if="loading")
       p Loading...
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { validateName, validateEmail, validatePhone, validatePassword, validatePasswordConfirmation } from "../utils/validations"
+import { validateName, validateEmail, validatePhone, validatePassword, validatePasswordConfirmation, validateUniqueness } from "../utils/validations"
 
 export default {
   name: 'Dashboard',
@@ -60,6 +60,7 @@ export default {
     return {
       loading: false,
       errors: {},
+      validations: {},
       clients: [],
       client: {
         full_name: '',
@@ -72,7 +73,8 @@ export default {
       validateEmail,
       validatePhone,
       validatePassword,
-      validatePasswordConfirmation
+      validatePasswordConfirmation,
+      validateUniqueness
     }
   },
   created() {
@@ -104,6 +106,7 @@ export default {
         .then(() => this.fetchClients())
         .catch((error) => this.errors['delete'] = error)
         .finally(() => this.loading = false)
+
     },
     clearForm() {
       this.client.full_name = ''
@@ -134,6 +137,7 @@ export default {
     border-radius: 5px
 
   small
+    margin-left: 1em
     color: #ff0000
 
   .button
@@ -157,4 +161,7 @@ export default {
     margin: 2em auto
     font-size: 1.2em
     text-align: center
+
+  .border-red
+    border-color: red
 </style>
