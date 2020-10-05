@@ -1,7 +1,7 @@
 <template lang="pug">
   q-form(
     ref="clientForm"
-    @submit.prevent="createClient"
+    @submit="createClient"
     class="q-gutter-md"
     style="max-width:40%; margin: auto")
     q-input(
@@ -92,21 +92,11 @@ export default {
       this.loading = true
       const client = this.client
       this.$api.clients.create({client})
-          .then(() => this.fetchClients())
           .catch((error) => this.errors['create'] = error)
           .finally(() => {
             this.loading = false
             this.clearForm()
           })
-    },
-    deleteClient(client) {
-      this.loading = true
-      const client_id = client.id
-      this.$api.clients.delete(client_id)
-          .then(() => this.fetchClients())
-          .catch((error) => this.errors['delete'] = error)
-          .finally(() => this.loading = false)
-
     },
     clearForm() {
       this.client.full_name = ''
