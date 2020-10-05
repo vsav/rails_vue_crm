@@ -20,19 +20,19 @@ class Staffs::ClientsController < ApplicationController
   end
 
   def validate_uniqueness
-    phone = Client.find_by(phone: client_params[:phone])
-    email = Client.find_by(email: client_params[:email])
+    phone = Client.find_by(phone: params[:phone])
+    email = Client.find_by(email: params[:email])
 
     if phone && email
-      render json: { validations: { phone: "Phone #{client_params[:phone]} already exists",
-                                    email: "Email #{client_params[:email]} already exists" }
+      render json: { uniqueness: { phone: "Phone #{params[:phone]} already exists",
+                                    email: "Email #{params[:email]} already exists" }
                    }
     elsif phone
-      render json: { validations: { phone: "Phone #{client_params[:phone]} already exists" }}
+      render json: { uniqueness: { phone: "Phone #{params[:phone]} already exists" }}
     elsif email
-      render json: { validations: { email: "Email #{client_params[:email]} already exists" }}
+      render json: { uniqueness: { email: "Email #{params[:email]} already exists" }}
     else
-      render json: { validations: {} }
+      render json: { uniqueness: {} }
     end
   end
 
