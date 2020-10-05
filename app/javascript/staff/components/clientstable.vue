@@ -1,5 +1,5 @@
 <template lang="pug">
-  .clients-list
+  q-page-container
     q-table(
       title="Clients List"
       :data="clients"
@@ -21,7 +21,7 @@
         pagination: {
           rowsPerPage: 10
         },
-        errors: [],
+        errors: {},
         clients: [],
         columns: [
           {
@@ -58,19 +58,15 @@
     },
     methods: {
       fetchClients() {
-        this.loading = true
         this.$api.clients.index()
             .then(({data}) => this.clients = data)
             .catch((error) => this.errors['fetch'] = error)
-            .finally(() => this.loading = false)
       },
       deleteClient(client) {
-        this.loading = true
         const client_id = client.row.id
         this.$api.clients.delete(client_id)
             .then(() => this.fetchClients())
             .catch((error) => this.errors['delete'] = error)
-            .finally(() => this.loading = false)
       }
     }
   }
