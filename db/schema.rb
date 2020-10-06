@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_23_085828) do
+ActiveRecord::Schema.define(version: 2020_10_05_231227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "client_organizations", force: :cascade do |t|
+    t.bigint "client_id"
+    t.bigint "organization_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_id"], name: "index_client_organizations_on_client_id"
+    t.index ["organization_id"], name: "index_client_organizations_on_organization_id"
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -30,6 +39,15 @@ ActiveRecord::Schema.define(version: 2020_09_23_085828) do
     t.index ["api_token"], name: "index_clients_on_api_token", unique: true
     t.index ["email"], name: "index_clients_on_email", unique: true
     t.index ["reset_password_token"], name: "index_clients_on_reset_password_token", unique: true
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "structure", null: false
+    t.string "inn", null: false
+    t.string "ogrn", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "staffs", force: :cascade do |t|
