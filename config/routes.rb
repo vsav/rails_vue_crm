@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
   namespace :clients do
     root to: "home#index"
+    get "/profile", to: "home#profile"
+
+    resources :organizations, only: :index
   end
 
   namespace :staffs do
