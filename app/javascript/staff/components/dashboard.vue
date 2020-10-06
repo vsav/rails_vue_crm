@@ -1,12 +1,14 @@
 <template lang="pug">
-  q-page-container
+  .dashboard
     ClientForm
     ClientsTable
+    OrganizationsTable
 </template>
 
 <script>
   import ClientForm from './clientform'
   import ClientsTable from './clientstable'
+  import OrganizationsTable from './organizationstable'
   export default {
     name: 'Dashboard',
     data: function () {
@@ -16,7 +18,8 @@
     },
     components: {
       ClientForm,
-      ClientsTable
+      ClientsTable,
+      OrganizationsTable
     }
   }
 </script>
