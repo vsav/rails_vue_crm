@@ -1,68 +1,67 @@
 <template lang="pug">
-  q-page
-    q-form(
-      ref="clientForm"
-      @submit="createClient"
-      class="q-gutter-md"
-      style="max-width:40%; margin: auto")
-      q-input(
-        outlined
-        v-model="client.full_name"
-        label="Full Name *"
-        hint="Only letters. Minimum 5"
-        lazy-rules="ondemand"
-        :rules="validationRules.fullName")
-      q-input(
-        outlined
-        v-model="client.phone"
-        label="Phone *"
-        hint="Only digits"
-        lazy-rules="ondemand"
-        :error="!phoneUniq"
-        :error-message="uniqueness.phone"
-        :rules="validationRules.phone"
-        @blur="validateUniqueness(client)"
-        @input="phoneUniq = true"
-        )
-      q-input(
-        outlined
-        v-model="client.email"
-        label="Email *"
-        hint='Please enter valid email address'
-        lazy-rules="ondemand"
-        :error="!emailUniq"
-        :error-message="uniqueness.email"
-        :rules="validationRules.email"
-        @blur="validateUniqueness(client)"
-        @input="emailUniq = true"
-        )
-      q-input(
-        outlined
-        v-model='client.password'
-        label="Password *"
-        hint='Minimum 5 symbols'
-        :type="isPwd ? 'password' : 'text'"
-        lazy-rules="ondemand"
-        :rules="validationRules.password")
-        template(v-slot:append)
-          q-icon.cursor-pointer(
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            @click='isPwd = !isPwd')
-      q-input(
-        outlined
-        v-model='client.password_confirmation'
-        label="Confirm Password *"
-        hint='Re-enter your password'
-        :type="isPwd ? 'password' : 'text'"
-        :rules="[v => v === client.password || 'Password didnt match']"
+  q-form(
+    ref="clientForm"
+    @submit="createClient"
+    class="q-gutter-md"
+    style="max-width:40%; margin: auto")
+    q-input(
+      outlined
+      v-model="client.full_name"
+      label="Full Name *"
+      hint="Only letters. Minimum 5"
+      lazy-rules="ondemand"
+      :rules="validationRules.fullName")
+    q-input(
+      outlined
+      v-model="client.phone"
+      label="Phone *"
+      hint="Only digits"
+      lazy-rules="ondemand"
+      :error="!phoneUniq"
+      :error-message="uniqueness.phone"
+      :rules="validationRules.phone"
+      @blur="validateUniqueness(client)"
+      @input="phoneUniq = true"
       )
-        template(v-slot:append)
-          q-icon.cursor-pointer(
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            @click='isPwd = !isPwd')
+    q-input(
+      outlined
+      v-model="client.email"
+      label="Email *"
+      hint='Please enter valid email address'
+      lazy-rules="ondemand"
+      :error="!emailUniq"
+      :error-message="uniqueness.email"
+      :rules="validationRules.email"
+      @blur="validateUniqueness(client)"
+      @input="emailUniq = true"
+      )
+    q-input(
+      outlined
+      v-model='client.password'
+      label="Password *"
+      hint='Minimum 5 symbols'
+      :type="isPwd ? 'password' : 'text'"
+      lazy-rules="ondemand"
+      :rules="validationRules.password")
+      template(v-slot:append)
+        q-icon.cursor-pointer(
+          :name="isPwd ? 'visibility_off' : 'visibility'"
+          @click='isPwd = !isPwd')
+    q-input(
+      outlined
+      v-model='client.password_confirmation'
+      label="Confirm Password *"
+      hint='Re-enter your password'
+      :type="isPwd ? 'password' : 'text'"
+      :rules="[v => v === client.password || 'Password didnt match']"
+    )
+      template(v-slot:append)
+        q-icon.cursor-pointer(
+          :name="isPwd ? 'visibility_off' : 'visibility'"
+          @click='isPwd = !isPwd')
 
-      div
-        q-btn(label="Create Client" type="submit" color="primary" @click="validate()")
+    div
+      q-btn(label="Create Client" type="submit" color="primary" @click="validate()")
 </template>
 
 <script>

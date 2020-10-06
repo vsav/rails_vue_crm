@@ -1,17 +1,14 @@
 <template lang="pug">
-  q-page
-    q-table(
-      title="Clients List"
-      :data="clients"
-      :columns="columns"
-      :pagination.sync="pagination"
-      row-key="id"
-    )
-      template(v-slot:body-cell-actions="client")
-        q-td(:client="client")
-          q-btn(class="button delete-button" @click.prevent ="deleteClient(client)" type="button") Delete client
-
-
+  q-table(
+    title="Clients List"
+    :data="clients"
+    :columns="columns"
+    :pagination.sync="pagination"
+    row-key="id"
+  )
+    template(v-slot:body-cell-actions="client")
+      q-td(:client="client")
+        q-btn(class="button delete-button" @click.prevent ="deleteClient(client)" type="button") Delete client
 </template>
 <script>
   export default {

@@ -1,10 +1,11 @@
 <template lang="pug">
   q-layout(view="hHh lpR fFf")
-    template(v-if="loading")
-      Loading
-    template(v-else)
-      Navbar
-      Dashboard
+    q-page-container
+      template(v-if="loading")
+        Loading
+      template(v-else)
+        Navbar
+        Dashboard
 </template>
 
 <script>
