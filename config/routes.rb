@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     post "/validate", to: "clients#validate_uniqueness"
 
     resources :clients, only: [:index, :create, :destroy]
+    resources :organizations, only: :index
   end
 
   namespace :api do
