@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import App from '../client.vue'
+import './api/clients'
+import './quasar'
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = new Vue({

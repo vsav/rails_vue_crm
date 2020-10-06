@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import Navbar from './staff/components/navbar.vue'
+  import Navbar from './packs/shared/components/navbar'
   import Dashboard from './staff/components/dashboard'
   import Loading from './packs/shared/components/loading'
 
