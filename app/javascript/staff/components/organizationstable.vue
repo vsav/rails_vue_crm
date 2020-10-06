@@ -45,6 +45,12 @@ export default {
           field: 'ogrn',
           align: 'left',
           sortable: true
+        },
+        {
+          name: 'clients',
+          label: 'Clients',
+          field: row => this.getClients(row).join(' | '),
+          align: 'left'
         }
       ]
     }
@@ -57,6 +63,12 @@ export default {
       this.$api.organizations.index()
           .then(({data}) => this.organizations = data)
           .catch((error) => this.errors['fetch'] = error)
+    },
+    getClients(row) {
+      const data = row.clients
+      const clients = []
+      data.forEach(client => clients.push(client.full_name))
+      return clients
     }
   }
 }
