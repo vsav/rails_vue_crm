@@ -6,22 +6,23 @@
           q-avatar
             img(src="../../../assets/images/s-logo.svg")
           | CRM
-        q-btn(dense flat round icon="menu" @click="right = !right")
 
-    q-drawer(show-if-above v-model="right" side="right" bordered)
-      .navbar-links
-        q-btn(flat icon="account_circle" class="q-mr-xs") {{ profile.email }}
-        q-btn(flat icon="highlight_off" @click="sign_out" ) Sign out
+        q-btn-dropdown(dense flat round dropdown-icon="menu")
+          q-list
+            q-item
+              q-item-section
+                q-btn(flat icon="account_circle" class="q-mr-xs" align="left" :ripple="false") {{ profile.email }}
+            q-item
+              q-item-section
+                q-btn(flat icon="highlight_off" @click="sign_out" align="left" :ripple="false") Sign out
 </template>
-
 <script>
   export default {
     name: 'Navbar',
     data: function() {
       return {
         errors: [],
-        right: false,
-        profile: {},
+        profile: {}
       }
     },
     created() {
