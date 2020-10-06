@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page
+  q-page-container
     ClientForm
     ClientsTable
 </template>

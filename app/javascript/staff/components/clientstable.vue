@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page-container
+  q-page
     q-table(
       title="Clients List"
       :data="clients"
