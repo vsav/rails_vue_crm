@@ -8,9 +8,13 @@
   )
     template(v-slot:body-cell-actions="client")
       q-td(:client="client")
-        q-btn(class="button delete-button" @click.prevent ="deleteClient(client)" type="button") Delete client
+        q-btn(@click.prevent="deleteClient(client)" icon="delete" round)
+    template(v-slot:top-right)
+      q-btn(label="Create Client" color="primary" @click="showForm" class="q-ma-md right" )
 </template>
 <script>
+  import ClientForm from "./clientform";
+
   export default {
     name: 'ClientsTable',
     data() {
@@ -64,6 +68,12 @@
         this.$api.clients.delete(client_id)
             .then(() => this.fetchClients())
             .catch((error) => this.errors['delete'] = error)
+      },
+      showForm() {
+        this.$q.dialog({
+          component: ClientForm,
+          parent: this
+        })
       }
     }
   }
