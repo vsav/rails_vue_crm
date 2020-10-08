@@ -3,5 +3,7 @@ class Organization < ApplicationRecord
   has_many :clients, through: :client_organizations
 
   validates :name, :structure, :inn, :ogrn, presence: true
-  validates_uniqueness_of :name, :inn, :ogrn
+  validates_uniqueness_of :name, :inn
+  validates :inn, numericality: { only_integer: true }, length: { in: 9..12 }
+  validates :ogrn, numericality: { only_integer: true }, length: { is: 13 }
 end
