@@ -4,6 +4,6 @@ class Clients::OrganizationsController < ApplicationController
 
   def index
     organizations = current_client.organizations
-    render json: organizations, each_serializer: ClientOrganizationsSerializer
+    render json: organizations, each_serializer: OrganizationSerializer
   end
 end
