@@ -15,6 +15,23 @@ const validationRules = {
   password: [
     v => !!v || 'Can\'t be blank',
     v => (v && v.length >= 5) || 'Must be at least 5 characters'
+  ],
+  organization_name: [
+    v => !!v || 'Can\'t be blank'
+  ],
+  structure: [
+    v => !!v || 'Can\'t be blank',
+    v => (v && /^[\w]/i.test(v)) || 'Letters only'
+  ],
+  inn: [
+    v => !!v || 'Can\'t be blank',
+    v => (v && /^[\d]/i.test(v)) || 'INN must be only digits',
+    v => (v && v.length >= 9 && v.length <= 12) || 'Must be 9 to 12 digits'
+  ],
+  ogrn: [
+    v => !!v || 'Can\'t be blank',
+    v => (v && /^[\d]/i.test(v)) || 'INN must be only digits',
+    v => (v && v.length === 13) || 'Must be 13 digits'
   ]
 }
 
