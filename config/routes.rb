@@ -14,10 +14,11 @@ Rails.application.routes.draw do
   namespace :staffs do
     root to: "home#index"
     get "/profile", to: "home#profile"
-    post "/validate", to: "clients#validate_uniqueness"
+    post "/validate_client", to: "clients#validate_uniqueness"
+    post "/validate_organization", to: "organizations#validate_uniqueness"
 
     resources :clients, only: [:index, :create, :destroy]
-    resources :organizations, only: :index
+    resources :organizations, only: [:index, :create, :destroy]
   end
 
   namespace :api do
