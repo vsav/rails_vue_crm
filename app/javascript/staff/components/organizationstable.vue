@@ -6,8 +6,15 @@
     :pagination.sync="pagination"
     row-key="id"
   )
+    template(v-slot:body-cell-actions="organization")
+      q-td(:organization="organization")
+        q-btn(@click.prevent="deleteOrganization(organization)" icon="delete" round)
+    template(v-slot:top-right)
+      q-btn(label="Create Organization" color="primary" @click="showForm" class="q-ma-md right" )
 </template>
 <script>
+import OrganizationForm from "./organizationform";
+
 export default {
   name: 'OrganizationsTable',
   data() {
@@ -51,6 +58,10 @@ export default {
           label: 'Clients',
           field: row => this.getClients(row).join(' | '),
           align: 'left'
+        },
+        {
+          name: 'actions',
+          label: 'Actions'
         }
       ]
     }
@@ -69,6 +80,18 @@ export default {
       const clients = []
       data.forEach(client => clients.push(client.full_name))
       return clients
+    },
+    deleteOrganization(organization) {
+      const organization_id = organization.row.id
+      this.$api.organizations.delete(organization_id)
+          .then(() => this.fetchOrganizations())
+          .catch((error) => this.errors['delete'] = error)
+    },
+    showForm() {
+      this.$q.dialog({
+        component: OrganizationForm,
+        parent: this
+      })
     }
   }
 }
