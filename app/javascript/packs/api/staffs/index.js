@@ -11,10 +11,13 @@ const api = {
     index: () => axios.get('/staffs/clients'),
     create: (client) => axios.post('/staffs/clients', client),
     delete: (client_id) => axios.delete(`/staffs/clients/${client_id}`),
-    validate: (client) => axios.post('/staffs/validate', client),
+    validate: (client) => axios.post('/staffs/validate_client', client)
   },
   organizations: {
-    index: () => axios.get('/staffs/organizations')
+    index: () => axios.get('/staffs/organizations'),
+    create: (organization) => axios.post('/staffs/organizations', organization),
+    delete: (organization_id) => axios.delete(`/staffs/organizations/${organization_id}`),
+    validate: (organization) => axios.post('/staffs/validate_organization', organization)
   }
 }
 
