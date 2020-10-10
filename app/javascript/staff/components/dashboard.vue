@@ -12,9 +12,9 @@
 </template>
 
 <script>
-  import ClientForm from './clientform'
-  import ClientsTable from './clientstable'
-  import OrganizationsTable from './organizationstable'
+  import ClientForm from './client/form'
+  import ClientsTable from './client/table'
+  import OrganizationsTable from './organization/table'
   export default {
     name: 'Dashboard',
     data: function () {

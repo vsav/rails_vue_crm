@@ -13,7 +13,7 @@
       q-btn(label="Create Client" color="primary" @click="showForm" class="q-ma-md right" )
 </template>
 <script>
-  import ClientForm from "./clientform";
+  import ClientForm from "./form";
 
   export default {
     name: 'ClientsTable',
