@@ -55,49 +55,49 @@ organizations = Organization.create!([
                               name: 'Sepultura',
                               structure: 'OOO',
                               inn: '123123123',
-                              ogrn: '13345234'
+                              ogrn: '1334523473645'
                             },
                             {
                               name: 'Soulfly',
                               structure: 'ZAO',
-                              inn: '12574833',
-                              ogrn: '13547374'
+                              inn: '1257483319',
+                              ogrn: '1354273748251'
                             },
                             {
                               name: 'Terminator',
                               structure: 'OAO',
                               inn: '345234234',
-                              ogrn: '672348973'
+                              ogrn: '6723489730192'
                             },
                             {
                               name: 'Terminator 2',
                               structure: 'OAO',
                               inn: '7483623423',
-                              ogrn: '462876423'
+                              ogrn: '4628764230172'
                             },
                             {
                               name: 'Die Hard',
                               structure: 'ZAO',
                               inn: '847349534',
-                              ogrn: '456387234'
+                              ogrn: '4563872343012'
                             },
                             {
                               name: 'Die Hard 2',
                               structure: 'ZAO',
                               inn: '812319534',
-                              ogrn: '47645234'
+                              ogrn: '4764523428142'
                             },
                             {
                               name: 'Die Hard 3',
                               structure: 'ZAO',
                               inn: '8486428934',
-                              ogrn: '446283784'
+                              ogrn: '4462837847182'
                             },
                             {
                               name: 'Die Hard 4',
                               structure: 'ZAO',
                               inn: '898234423',
-                              ogrn: '456482344'
+                              ogrn: '4564823440172'
                             },])
 clients[0].organizations.push(organizations[2], organizations[3])
 clients[1].organizations.push(organizations[2], organizations[3])
