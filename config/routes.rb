@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     post "/validate_organization", to: "organizations#validate_uniqueness"
 
     resources :clients, only: [:index, :create, :destroy]
-    resources :organizations, only: [:index, :create, :destroy]
+    resources :organizations, only: [:index, :create, :update, :destroy]
   end
 
   namespace :api do

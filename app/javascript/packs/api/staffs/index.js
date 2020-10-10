@@ -16,6 +16,7 @@ const api = {
   organizations: {
     index: () => axios.get('/staffs/organizations'),
     create: (organization) => axios.post('/staffs/organizations', organization),
+    update: (organization) => axios.patch(`/staffs/organizations/${organization.id}`, organization),
     delete: (organization_id) => axios.delete(`/staffs/organizations/${organization_id}`),
     validate: (organization) => axios.post('/staffs/validate_organization', organization)
   }
