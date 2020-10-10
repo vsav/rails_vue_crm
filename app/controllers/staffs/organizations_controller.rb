@@ -1,6 +1,6 @@
 class Staffs::OrganizationsController < ApplicationController
-
   before_action :authenticate_staff!
+  before_action :find_organization, only: [:update, :destroy]
 
   def index
     organizations = Organization.all
@@ -17,9 +17,18 @@ class Staffs::OrganizationsController < ApplicationController
     end
   end
 
+  def update
+    clients_ids = params[:clients].pluck(:id)
+    if @organization.update(organization_params)
+      @organization.client_ids = clients_ids
+      render json: @organization, serializer: OrganizationSerializer, status: :ok
+    else
+      render json: { errors: @organization.errors }, status: :unprocessable_entity
+    end
+  end
+
   def destroy
-    organization = Organization.find(params[:id])
-    organization.destroy
+    @organization.destroy
   end
 
   def validate_uniqueness
@@ -40,7 +49,11 @@ class Staffs::OrganizationsController < ApplicationController
 
   private
 
+  def find_organization
+    @organization = Organization.find(params[:id])
+  end
+
   def organization_params
-    params.require(:organization).permit(:name, :structure, :inn, :ogrn, :client)
+    params.require(:organization).permit(:name, :structure, :inn, :ogrn)
   end
 end
