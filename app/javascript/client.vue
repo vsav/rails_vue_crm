@@ -10,7 +10,7 @@
 <script>
 import Navbar from './packs/shared/components/navbar'
 import Loading from './packs/shared/components/loading'
-import ClientOrganizationsTable from './client/components/organizationstable'
+import ClientOrganizationsTable from './client/components/organization/table'
 
 export default {
   data: function() {
