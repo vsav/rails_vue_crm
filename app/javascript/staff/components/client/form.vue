@@ -4,7 +4,6 @@
       q-card-section
         q-form(
           ref="clientForm"
-          @submit.prevent="createClient"
           class="form q-gutter-md"
           )
           q-input(
@@ -38,33 +37,34 @@
             @blur="validateUniqueness(client)"
             @input="emailUniq = true"
             )
-          q-input(
-            outlined
-            v-model='client.password'
-            label="Password *"
-            hint='Minimum 5 symbols'
-            :type="isPwd ? 'password' : 'text'"
-            lazy-rules="ondemand"
-            :rules="validationRules.password")
-            template(v-slot:append)
-              q-icon.cursor-pointer(
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                @click='isPwd = !isPwd')
-          q-input(
-            outlined
-            v-model='client.password_confirmation'
-            label="Confirm Password *"
-            hint='Re-enter your password'
-            :type="isPwd ? 'password' : 'text'"
-            :rules="[v => v === client.password || 'Password didnt match']"
-          )
-            template(v-slot:append)
-              q-icon.cursor-pointer(
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                @click='isPwd = !isPwd')
+          template(v-if="!edited_client")
+            q-input(
+              outlined
+              v-model='client.password'
+              label="Password *"
+              hint='Minimum 5 symbols'
+              :type="isPwd ? 'password' : 'text'"
+              lazy-rules="ondemand"
+              :rules="validationRules.password")
+              template(v-slot:append)
+                q-icon.cursor-pointer(
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  @click='isPwd = !isPwd')
+            q-input(
+              outlined
+              v-model='client.password_confirmation'
+              label="Confirm Password *"
+              hint='Re-enter your password'
+              :type="isPwd ? 'password' : 'text'"
+              :rules="[v => v === client.password || 'Password didnt match']"
+            )
+              template(v-slot:append)
+                q-icon.cursor-pointer(
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  @click='isPwd = !isPwd')
 
       q-card-actions
-        q-btn(label="Create Client" type="submit" color="primary" @click="validate()")
+        q-btn(type="submit" color="primary" @click="validate()") {{formAction}}
 </template>
 
 <script>
@@ -72,6 +72,9 @@ import { validationRules } from "../../utils/validations";
 
 export default {
   name: 'ClientForm',
+  props: {
+    edited_client: Object
+  },
   data: function() {
     return {
       loading: false,
@@ -82,12 +85,14 @@ export default {
         phone: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        organizations: []
       },
       isPwd: true,
       phoneUniq: true,
       emailUniq: true,
-      validationRules
+      validationRules,
+      formAction: 'Create Client'
     }
   },
   methods: {
@@ -101,6 +106,16 @@ export default {
             this.clearForm()
           })
     },
+    updateClient(client) {
+      this.loading = true
+      this.$api.clients.update(client)
+          .catch((error) => this.errors['update'] = error)
+          .finally(() => {
+            this.loading = false
+            this.hide()
+          })
+    },
+
     clearForm() {
       this.client.full_name = ''
       this.client.email = ''
@@ -112,7 +127,7 @@ export default {
       this.$refs.clientForm.validate()
           .then((response) => {
             if(response === true) {
-              this.createClient()
+              this.edited_client? this.updateClient(this.client) : this.createClient()
             }
           })
     },
@@ -140,6 +155,15 @@ export default {
     },
     hide () {
       this.$refs.clientFormDialog.hide()
+    }
+  },
+  created() {
+    if(this.edited_client) {
+      this.client = this.edited_client
+      this.formAction = 'Update Client'
+    } else {
+      this.client = {}
+      this.formAction = 'Create Client'
     }
   }
 }

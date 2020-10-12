@@ -29,8 +29,7 @@ export default {
       },
       errors: {},
       organizations: [],
-      organization: {
-      },
+      organization: {},
       columns: [
         {
           name: 'name',

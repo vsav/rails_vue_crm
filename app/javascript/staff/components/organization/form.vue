@@ -56,7 +56,7 @@ import { validationRules } from "../../utils/validations";
 export default {
   name: 'OrganizationForm',
   props: {
-    edited_organization: Object,
+    edited_organization: Object
   },
   data: function() {
     return {
