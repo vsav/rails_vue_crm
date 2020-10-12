@@ -6,6 +6,20 @@
           ref="organizationForm"
           class="form q-gutter-md"
         )
+          q-select(
+            v-model="organization.inn"
+            use-input
+            emit-value
+            :options="dadataSuggestions"
+            label="Search with DaData"
+            @filter="fetchDadataInfo"
+            @input="populateFormFields"
+          )
+            template(v-slot:no-option="")
+              q-item
+                q-item-section.text-grey
+                  | Nothing found
+
           q-input(
             outlined
             v-model="organization.name"
@@ -52,6 +66,7 @@
 
 <script>
 import { validationRules } from "../../utils/validations";
+import dadataClient from "../../utils/dadataClient";
 
 export default {
   name: 'OrganizationForm',
@@ -70,6 +85,8 @@ export default {
         ogrn: '',
         clients: []
       },
+      dadataSuggestions: [],
+      requestInn: '',
       organizationNameUniq: true,
       innUniq: true,
       validationRules,
@@ -133,6 +150,27 @@ export default {
     },
     hide () {
       this.$refs.organizationFormDialog.hide()
+    },
+    populateFormFields(val) {
+      this.organization.name = val.data.name.short
+      this.organization.structure = val.data.opf.short
+      this.organization.inn = val.data.inn
+      this.organization.ogrn = val.data.ogrn
+
+    },
+    fetchDadataInfo(val, update, abort) {
+      if (val.length < 2) {
+        abort()
+        return
+      }
+      update(() => {
+        new dadataClient(val).organizations().then(result => {
+          this.dadataSuggestions = result.suggestions.map(suggestion => ({
+            value: suggestion,
+            label: suggestion.value,
+          }))
+        })
+      })
     }
   },
   created() {
@@ -146,6 +184,5 @@ export default {
   }
 }
 </script>
-
 <style lang="sass" scoped>
 </style>
