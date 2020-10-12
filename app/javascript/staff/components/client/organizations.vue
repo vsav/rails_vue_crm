@@ -3,7 +3,7 @@
     q-card(style="width: 700px; max-width: 80vw;")
       q-card-section
         q-table(
-          title="client.full_name + 'Organizations List'"
+          :title="client.full_name + ' Organizations List'"
           :data="organizations"
           :columns="columns"
           :pagination.sync="pagination"
