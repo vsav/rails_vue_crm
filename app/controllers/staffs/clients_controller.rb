@@ -1,9 +1,10 @@
 class Staffs::ClientsController < ApplicationController
   before_action :authenticate_staff!
+  before_action :find_client, only: [:update, :destroy]
 
   def index
     clients = Client.all
-    render json: clients, each_serializer: ClientSerializer
+    render json: clients, each_serializer: ClientWithOrganizationsSerializer
   end
 
   def create
@@ -16,9 +17,18 @@ class Staffs::ClientsController < ApplicationController
     end
   end
 
+  def update
+    organizations_ids = params[:organizations].pluck(:id)
+    if @client.update(client_params)
+      @client.organization_ids = organizations_ids
+      render json: @client, serializer: ClientWithOrganizationsSerializer, status: :ok
+    else
+      render json: { errors: @client.errors }, status: :unprocessable_entity
+    end
+  end
+
   def destroy
-    client = Client.find(params[:id])
-    client.destroy
+    @client.destroy
   end
 
   def validate_uniqueness
@@ -46,5 +56,9 @@ class Staffs::ClientsController < ApplicationController
                                    :phone,
                                    :password,
                                    :password_confirmation)
+  end
+
+  def find_client
+    @client = Client.find(params[:id])
   end
 end

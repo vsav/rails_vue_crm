@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     post "/validate_client", to: "clients#validate_uniqueness"
     post "/validate_organization", to: "organizations#validate_uniqueness"
 
-    resources :clients, only: [:index, :create, :destroy]
+    resources :clients, only: [:index, :create, :update, :destroy]
     resources :organizations, only: [:index, :create, :update, :destroy]
   end
 

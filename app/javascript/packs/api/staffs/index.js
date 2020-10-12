@@ -10,6 +10,7 @@ const api = {
   clients: {
     index: () => axios.get('/staffs/clients'),
     create: (client) => axios.post('/staffs/clients', client),
+    update: (client) => axios.patch(`/staffs/clients/${client.id}`, client),
     delete: (client_id) => axios.delete(`/staffs/clients/${client_id}`),
     validate: (client) => axios.post('/staffs/validate_client', client)
   },
