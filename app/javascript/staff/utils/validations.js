@@ -21,7 +21,7 @@ const validationRules = {
   ],
   structure: [
     v => !!v || 'Can\'t be blank',
-    v => (v && /^[\w]/i.test(v)) || 'Letters only'
+    v => (v && /^\p{L}+$/u.test(v)) || 'Letters only'
   ],
   inn: [
     v => !!v || 'Can\'t be blank',
