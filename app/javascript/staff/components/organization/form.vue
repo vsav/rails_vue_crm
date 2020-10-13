@@ -66,7 +66,7 @@
 
 <script>
 import { validationRules } from "../../utils/validations";
-import dadataClient from "../../utils/dadataClient";
+import { dadataClient } from "../../utils/dadataClient";
 
 export default {
   name: 'OrganizationForm',
@@ -156,7 +156,6 @@ export default {
       this.organization.structure = val.data.opf.short
       this.organization.inn = val.data.inn
       this.organization.ogrn = val.data.ogrn
-
     },
     fetchDadataInfo(val, update, abort) {
       if (val.length < 2) {
@@ -164,7 +163,7 @@ export default {
         return
       }
       update(() => {
-        new dadataClient(val).organizations().then(result => {
+        new dadataClient(val).then(result => {
           this.dadataSuggestions = result.suggestions.map(suggestion => ({
             value: suggestion,
             label: suggestion.value,
