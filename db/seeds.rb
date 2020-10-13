@@ -42,59 +42,59 @@ clients = Client.create!([
                               phone: '185924'
                             },
                             {
-                              email: 'macclein@test.com',
+                              email: 'luke@test.com',
                               password: 'qwe123',
                               password_confirmation: 'qwe123',
-                              full_name: 'John Macclein',
+                              full_name: 'Luke Skywalker',
                               phone: '1432343'
                             }])
 Staff.create!(email: 'admin@staff.com', password: 'qwe123', password_confirmation: 'qwe123')
 
 organizations = Organization.create!([
                             {
-                              name: 'Sepultura',
+                              name: 'Orion',
                               structure: 'OOO',
                               inn: '123123123',
                               ogrn: '1334523473645'
                             },
                             {
-                              name: 'Soulfly',
+                              name: 'Mars',
                               structure: 'ZAO',
                               inn: '1257483319',
                               ogrn: '1354273748251'
                             },
                             {
-                              name: 'Terminator',
+                              name: 'Venus',
                               structure: 'OAO',
                               inn: '345234234',
                               ogrn: '6723489730192'
                             },
                             {
-                              name: 'Terminator 2',
+                              name: 'Earth',
                               structure: 'OAO',
                               inn: '7483623423',
                               ogrn: '4628764230172'
                             },
                             {
-                              name: 'Die Hard',
+                              name: 'Jupiter',
                               structure: 'ZAO',
                               inn: '847349534',
                               ogrn: '4563872343012'
                             },
                             {
-                              name: 'Die Hard 2',
+                              name: 'Saturn',
                               structure: 'ZAO',
                               inn: '812319534',
                               ogrn: '4764523428142'
                             },
                             {
-                              name: 'Die Hard 3',
+                              name: 'Neptune',
                               structure: 'ZAO',
                               inn: '8486428934',
                               ogrn: '4462837847182'
                             },
                             {
-                              name: 'Die Hard 4',
+                              name: 'Uranus',
                               structure: 'ZAO',
                               inn: '898234423',
                               ogrn: '4564823440172'
