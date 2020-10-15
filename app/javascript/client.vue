@@ -1,21 +1,27 @@
 <template lang="pug">
-  #app
-    p {{ message }}
-    a(href="/clients/sign_out" data-method="delete") Sign out
+  q-layout(view="hHh lpR fFf")
+    template(v-if="loading")
+      Loading
+    template(v-else)
+      Navbar
+      ClientOrganizationsTable
 </template>
 
 <script>
-  export default {
-    data: function () {
-      return {
-        message: "Hello Client!"
-      }
-    }
-  }
-</script>
+import Navbar from './packs/shared/components/navbar'
+import Loading from './packs/shared/components/loading'
+import ClientOrganizationsTable from './client/components/organization/table'
 
-<style lang="sass">
-  p
-    font-size: 2em
-    text-align: center
-</style>
+export default {
+  data: function() {
+    return {
+      loading: false
+    }
+  },
+  components: {
+    Navbar,
+    Loading,
+    ClientOrganizationsTable
+  }
+}
+</script>
