@@ -57,8 +57,8 @@ export default {
   methods: {
     fetchOrganizations() {
       this.$api.organizations.index()
-          .then(({data}) => this.clientOrganizations = data)
-          .catch((error) => this.errors['fetch'] = error)
+        .then(({data}) => this.clientOrganizations = data)
+        .catch((error) => this.errors['fetch'] = error)
     }
   }
 }

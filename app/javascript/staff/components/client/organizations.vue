@@ -69,18 +69,18 @@ export default {
   methods: {
     fetchOrganizations() {
       this.$api.organizations.index()
-          .then(({data}) => this.organizations = data)
-          .catch((error) => this.errors['fetch'] = error)
+        .then(({data}) => this.organizations = data)
+        .catch((error) => this.errors['fetch'] = error)
       this.selectOrganizations()
     },
     updateOrganizationsList(client) {
       this.loading = true
       this.$api.clients.update(client)
-          .catch((error) => this.errors['update'] = error)
-          .finally(() => {
-            this.loading = false
-            this.hide()
-          })
+        .catch((error) => this.errors['update'] = error)
+        .finally(() => {
+          this.loading = false
+          this.hide()
+        })
     },
     show () {
       this.$refs.clientOrganizationsDialog.show()

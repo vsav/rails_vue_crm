@@ -16,16 +16,13 @@
   export default {
     data: function() {
       return {
-        loading: true
+        loading: false
       }
     },
     components: {
       Navbar,
       Dashboard,
       Loading
-    },
-    created() {
-      this.loading = false
     }
   }
 </script>

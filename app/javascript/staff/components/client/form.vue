@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { validationRules } from "../../utils/validations";
+import { validationRules } from "../../utils/validations"
 
 export default {
   name: 'ClientForm',
@@ -100,20 +100,20 @@ export default {
       this.loading = true
       const client = this.client
       this.$api.clients.create({client})
-          .catch((error) => this.errors['create'] = error)
-          .finally(() => {
-            this.loading = false
-            this.clearForm()
-          })
+        .catch((error) => this.errors['create'] = error)
+        .finally(() => {
+          this.loading = false
+          this.clearForm()
+        })
     },
     updateClient(client) {
       this.loading = true
       this.$api.clients.update(client)
-          .catch((error) => this.errors['update'] = error)
-          .finally(() => {
-            this.loading = false
-            this.hide()
-          })
+        .catch((error) => this.errors['update'] = error)
+        .finally(() => {
+          this.loading = false
+          this.hide()
+        })
     },
 
     clearForm() {
@@ -125,30 +125,30 @@ export default {
     },
     validate() {
       this.$refs.clientForm.validate()
-          .then((response) => {
-            if(response === true) {
-              this.edited_client? this.updateClient(this.client) : this.createClient()
-            }
-          })
+        .then((response) => {
+          if(response === true) {
+            this.edited_client? this.updateClient(this.client) : this.createClient()
+          }
+        })
     },
     validateUniqueness(client) {
       this.$api.clients.validate(client)
-          .then(({data}) => {
-            if(data.uniqueness.phone) {
-              this.uniqueness.phone = data.uniqueness.phone
-              this.phoneUniq = false
-              }
-            else if(data.uniqueness.email) {
-              this.uniqueness.email = data.uniqueness.email
-              this.emailUniq = false
-              }
-            else {
-              delete this.uniqueness.phone
-              delete this.uniqueness.email
-              this.phoneUniq = true
-              this.emailUniq = true
+        .then(({data}) => {
+          if(data.uniqueness.phone) {
+            this.uniqueness.phone = data.uniqueness.phone
+            this.phoneUniq = false
             }
-          })
+          else if(data.uniqueness.email) {
+            this.uniqueness.email = data.uniqueness.email
+            this.emailUniq = false
+            }
+          else {
+            delete this.uniqueness.phone
+            delete this.uniqueness.email
+            this.phoneUniq = true
+            this.emailUniq = true
+          }
+        })
     },
     show () {
       this.$refs.clientFormDialog.show()

@@ -71,14 +71,14 @@
     methods: {
       fetchClients() {
         this.$api.clients.index()
-            .then(({data}) => this.clients = data)
-            .catch((error) => this.errors['fetch'] = error)
+          .then(({data}) => this.clients = data)
+          .catch((error) => this.errors['fetch'] = error)
       },
       deleteClient(client) {
         const client_id = client.row.id
         this.$api.clients.delete(client_id)
-            .then(() => this.fetchClients())
-            .catch((error) => this.errors['delete'] = error)
+          .then(() => this.fetchClients())
+          .catch((error) => this.errors['delete'] = error)
       },
       setClient(client) {
         this.client = client

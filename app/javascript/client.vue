@@ -15,16 +15,13 @@ import ClientOrganizationsTable from './client/components/organization/table'
 export default {
   data: function() {
     return {
-      loading: true
+      loading: false
     }
   },
   components: {
     Navbar,
     Loading,
     ClientOrganizationsTable
-  },
-  created() {
-    this.loading = false
   }
 }
 </script>

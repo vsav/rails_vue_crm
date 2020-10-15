@@ -98,19 +98,19 @@ export default {
       this.loading = true
       const organization = this.organization
       this.$api.organizations.create({organization})
-          .catch((error) => this.errors['create'] = error)
-          .finally(() => {
-            this.loading = false
-            this.clearForm()
-          })
+        .catch((error) => this.errors['create'] = error)
+        .finally(() => {
+          this.loading = false
+          this.clearForm()
+        })
     },
     updateOrganization(organization) {
       this.loading = true
       this.$api.organizations.update(organization)
-          .catch((error) => this.errors['update'] = error)
-          .finally(() => {
-            this.loading = false
-          })
+        .catch((error) => this.errors['update'] = error)
+        .finally(() => {
+          this.loading = false
+        })
     },
     clearForm() {
       this.organization.name = ''
@@ -120,30 +120,30 @@ export default {
     },
     validate() {
       this.$refs.organizationForm.validate()
-          .then((response) => {
-            if(response === true) {
-              this.edited_organization? this.updateOrganization(this.organization) : this.createOrganization()
-            }
-          })
+        .then((response) => {
+          if(response === true) {
+            this.edited_organization? this.updateOrganization(this.organization) : this.createOrganization()
+          }
+        })
     },
     validateUniqueness(organization) {
       this.$api.organizations.validate(organization)
-          .then(({data}) => {
-            if(data.uniqueness.organization_name) {
-              this.uniqueness.organization_name = data.uniqueness.organization_name
-              this.organizationNameUniq = false
-            }
-            else if(data.uniqueness.inn) {
-              this.uniqueness.inn = data.uniqueness.inn
-              this.innUniq = false
-            }
-            else {
-              delete this.uniqueness.organization_name
-              delete this.uniqueness.inn
-              this.organizationNameUniq = true
-              this.innUniq = true
-            }
-          })
+        .then(({data}) => {
+          if(data.uniqueness.organization_name) {
+            this.uniqueness.organization_name = data.uniqueness.organization_name
+            this.organizationNameUniq = false
+          }
+          else if(data.uniqueness.inn) {
+            this.uniqueness.inn = data.uniqueness.inn
+            this.innUniq = false
+          }
+          else {
+            delete this.uniqueness.organization_name
+            delete this.uniqueness.inn
+            this.organizationNameUniq = true
+            this.innUniq = true
+          }
+        })
     },
     show () {
       this.$refs.organizationFormDialog.show()

@@ -63,18 +63,18 @@ export default {
   methods: {
     fetchClients() {
       this.$api.clients.index()
-          .then(({data}) => this.clients = data)
-          .catch((error) => this.errors['fetch'] = error)
+        .then(({data}) => this.clients = data)
+        .catch((error) => this.errors['fetch'] = error)
       this.selectClients()
     },
     updateClientsList(organization) {
       this.loading = true
       this.$api.organizations.update(organization)
-          .catch((error) => this.errors['update'] = error)
-          .finally(() => {
-            this.loading = false
-            this.hide()
-          })
+        .catch((error) => this.errors['update'] = error)
+        .finally(() => {
+          this.loading = false
+          this.hide()
+        })
     },
     show () {
       this.$refs.organizationClientsDialog.show()

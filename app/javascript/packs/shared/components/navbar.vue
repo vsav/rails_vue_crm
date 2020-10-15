@@ -31,26 +31,18 @@
     methods: {
       getProfile() {
         this.$api.profile()
-            .then(({data}) => {
-              this.profile = data
-            })
-            .catch((error) => this.errors.push(error))
+          .then(({data}) => {
+            this.profile = data
+          })
+          .catch((error) => this.errors.push(error))
       },
       sign_out() {
         this.$api.sign_out()
-            .then(() => location.replace('/'))
+          .then(() => location.replace('/'))
       }
     }
   }
 </script>
 
 <style lang="sass" scoped>
-  .navbar-logo
-    width: 64px
-
-  .navbar-links
-    display: flex
-    justify-content: space-around
-    align-items: center
-    color: #1976D2
 </style>

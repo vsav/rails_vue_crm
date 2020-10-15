@@ -78,8 +78,8 @@ export default {
   methods: {
     fetchOrganizations() {
       this.$api.organizations.index()
-          .then(({data}) => this.organizations = data)
-          .catch((error) => this.errors['fetch'] = error)
+        .then(({data}) => this.organizations = data)
+        .catch((error) => this.errors['fetch'] = error)
     },
     setOrganization(organization) {
       this.organization = organization
@@ -88,8 +88,8 @@ export default {
     deleteOrganization(organization) {
       const organization_id = organization.row.id
       this.$api.organizations.delete(organization_id)
-          .then(() => this.fetchOrganizations())
-          .catch((error) => this.errors['delete'] = error)
+        .then(() => this.fetchOrganizations())
+        .catch((error) => this.errors['delete'] = error)
     },
     showForm() {
       this.$q.dialog({
