@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-dialog(ref="clientFormDialog")
+  q-dialog(ref="clientFormDialog" persistent)
     q-card(class="q-dialog-plugin")
       q-card-section
         q-form(
@@ -62,9 +62,9 @@
                 q-icon.cursor-pointer(
                   :name="isPwd ? 'visibility_off' : 'visibility'"
                   @click='isPwd = !isPwd')
-
       q-card-actions
         q-btn(type="submit" color="primary" @click="validate()") {{formAction}}
+        q-btn(@click.prevent="hide()" label="Cancel" class="q-ma-md")
 </template>
 
 <script>
@@ -154,6 +154,7 @@ export default {
       this.$refs.clientFormDialog.show()
     },
     hide () {
+      this.$router.push({name: 'clients'})
       this.$refs.clientFormDialog.hide()
     }
   },

@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-dialog(ref="organizationFormDialog")
+  q-dialog(ref="organizationFormDialog" persistent)
     q-card(class="q-dialog-plugin")
       q-card-section
         q-form(
@@ -62,6 +62,7 @@
           )
       q-card-actions
         q-btn(type="submit" color="primary" @click="validate()") {{formAction}}
+        q-btn(@click.prevent="hide()" label="Cancel" class="q-ma-md")
 </template>
 
 <script>
@@ -149,6 +150,7 @@ export default {
       this.$refs.organizationFormDialog.show()
     },
     hide () {
+      this.$router.push({name: 'organizations'})
       this.$refs.organizationFormDialog.hide()
     },
     populateFormFields(val) {

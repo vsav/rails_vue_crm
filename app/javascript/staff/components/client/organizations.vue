@@ -86,6 +86,7 @@ export default {
       this.$refs.clientOrganizationsDialog.show()
     },
     hide () {
+      this.$router.push({name: 'clients'})
       this.$refs.clientOrganizationsDialog.hide()
     },
     selectOrganizations() {

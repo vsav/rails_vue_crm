@@ -91,6 +91,7 @@
         })
       },
       manageOrganizations(client) {
+        this.$router.push({ name: 'manage_client_organizations', params: {id: client.row.id }})
         this.$q.dialog({
           component: ClientOrganizationsTable,
           parent: this,
@@ -99,6 +100,7 @@
       },
       editClient(client) {
         this.setClient(client.row)
+        this.$router.push({ name: 'edit_client', params: {id: client.row.id }})
         this.$q.dialog({
           component: ClientForm,
           parent: this,

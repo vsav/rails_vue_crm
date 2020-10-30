@@ -98,6 +98,7 @@ export default {
       })
     },
     manageClients(organization) {
+      this.$router.push({ name: 'manage_organization_clients', params: {id: organization.row.id }})
       this.$q.dialog({
         component: OrganizationClientsTable,
         parent: this,
@@ -106,6 +107,7 @@ export default {
     },
     editOrganization(organization) {
       this.setOrganization(organization.row)
+      this.$router.push({ name: 'edit_organization', params: {id: organization.row.id }})
       this.$q.dialog({
         component: OrganizationForm,
         parent: this,
