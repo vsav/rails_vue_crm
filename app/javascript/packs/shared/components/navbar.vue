@@ -3,8 +3,9 @@
     q-header(elevated class="bg-primary text-white")
       q-toolbar
         q-toolbar-title
-          q-avatar
-            img(src="../../../assets/images/s-logo.svg")
+          router-link(to="/")
+            q-avatar
+              img(src="../../../assets/images/s-logo.svg")
           | CRM
 
         q-btn-dropdown(dense flat round dropdown-icon="menu")
