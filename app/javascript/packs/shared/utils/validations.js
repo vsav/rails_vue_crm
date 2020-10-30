@@ -32,6 +32,18 @@ const validationRules = {
     v => !!v || 'Can\'t be blank',
     v => (v && /^[\d]/i.test(v)) || 'INN must be only digits',
     v => (v && v.length === 13) || 'Must be 13 digits'
+  ],
+  equipment_name: [
+    v => !!v || 'Can\'t be blank',
+    v => (v && v.length >= 3) || 'Must be at least 3 characters'
+  ],
+  equipment_kind: [
+    v => !!v || 'Can\'t be blank',
+    v => (v && v.length >= 3) || 'Must be at least 3 characters'
+  ],
+  equipment_serial: [
+    v => !!v || 'Can\'t be blank',
+    v => (v && v.length >= 5) || 'Must be at least 5 characters'
   ]
 }
 
