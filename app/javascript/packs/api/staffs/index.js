@@ -28,6 +28,13 @@ const api = {
     update: (organization) => adapter.patch(`/organizations/${organization.id}`, organization),
     delete: (organization_id) => adapter.delete(`/organizations/${organization_id}`),
     validate: (organization) => adapter.post('/validate_organization', organization)
+  },
+  equipment: {
+    index: () => adapter.get('/equipment'),
+    create: (equipment) => adapter.post('/equipment', equipment),
+    update: (equipment) => adapter.patch(`/equipment/${equipment.id}`, equipment),
+    delete: (equipment_id) => adapter.delete(`/equipment/${equipment_id}`),
+    validate: (equipment) => adapter.post('/validate_equipment', equipment)
   }
 }
 

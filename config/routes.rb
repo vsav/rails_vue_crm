@@ -13,12 +13,16 @@ Rails.application.routes.draw do
 
   namespace :staffs do
     root to: 'home#index'
-    get '/profile', to: 'home#profile'
-    patch '/update_password', to: 'home#update_password'
-    post '/validate_client', to: 'clients#validate_uniqueness'
-    post '/validate_organization', to: 'organizations#validate_uniqueness'
-    resources :clients, only: [:index, :create, :update, :destroy]
-    resources :organizations, only: [:index, :create, :update, :destroy]
+    constraints ->(req) { req.format == :json } do
+      get '/profile', to: 'home#profile'
+      patch '/update_password', to: 'home#update_password'
+      post '/validate_client', to: 'clients#validate_uniqueness'
+      post '/validate_organization', to: 'organizations#validate_uniqueness'
+      post '/validate_equipment', to: 'equipment#validate_uniqueness'
+      resources :clients, only: [:index, :create, :update, :destroy]
+      resources :organizations, only: [:index, :create, :update, :destroy]
+      resources :equipment, only: [:index, :create, :update, :destroy]
+    end
   end
 
   namespace :api do
