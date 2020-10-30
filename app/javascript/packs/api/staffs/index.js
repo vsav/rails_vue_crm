@@ -4,22 +4,29 @@ import Vue from 'vue'
 const token = document.head.querySelector('meta[name="csrf-token"]')
 axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content
 
+const adapter = axios.create({
+  baseURL: '/staffs',
+  headers: {
+    'Accept': 'application/json'
+  }
+})
+
 const api = {
-  profile: () => axios.get('/staffs/profile'),
+  profile: () => adapter.get('/profile'),
   sign_out: () => axios.get('/staffs/sign_out'),
   clients: {
-    index: () => axios.get('/staffs/clients'),
-    create: (client) => axios.post('/staffs/clients', client),
-    update: (client) => axios.patch(`/staffs/clients/${client.id}`, client),
-    delete: (client_id) => axios.delete(`/staffs/clients/${client_id}`),
-    validate: (client) => axios.post('/staffs/validate_client', client)
+    index: () => adapter.get('/clients'),
+    create: (client) => adapter.post('/clients', client),
+    update: (client) => adapter.patch(`/clients/${client.id}`, client),
+    delete: (client_id) => adapter.delete(`/clients/${client_id}`),
+    validate: (client) => adapter.post('/validate_client', client)
   },
   organizations: {
-    index: () => axios.get('/staffs/organizations'),
-    create: (organization) => axios.post('/staffs/organizations', organization),
-    update: (organization) => axios.patch(`/staffs/organizations/${organization.id}`, organization),
-    delete: (organization_id) => axios.delete(`/staffs/organizations/${organization_id}`),
-    validate: (organization) => axios.post('/staffs/validate_organization', organization)
+    index: () => adapter.get('/organizations'),
+    create: (organization) => adapter.post('/organizations', organization),
+    update: (organization) => adapter.patch(`/organizations/${organization.id}`, organization),
+    delete: (organization_id) => adapter.delete(`/organizations/${organization_id}`),
+    validate: (organization) => adapter.post('/validate_organization', organization)
   }
 }
 

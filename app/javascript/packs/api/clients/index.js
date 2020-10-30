@@ -4,11 +4,18 @@ import Vue from 'vue'
 const token = document.head.querySelector('meta[name="csrf-token"]')
 axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content
 
+const adapter = axios.create({
+  baseURL: '/clients',
+  headers: {
+    'Accept': 'application/json'
+  }
+})
+
 const api = {
-  profile: () => axios.get('/clients/profile'),
+  profile: () => adapter.get('/profile'),
   sign_out: () => axios.get('/clients/sign_out'),
   organizations: {
-    index: () => axios.get('/clients/organizations')
+    index: () => adapter.get('/organizations')
   }
 }
 

@@ -5,18 +5,16 @@ Rails.application.routes.draw do
   root to: 'application#index'
 
   namespace :clients do
-    root to: "home#index"
-    get "/profile", to: "home#profile"
-
+    root to: 'home#index'
+    get '/profile', to: 'home#profile'
     resources :organizations, only: :index
   end
 
   namespace :staffs do
-    root to: "home#index"
-    get "/profile", to: "home#profile"
-    post "/validate_client", to: "clients#validate_uniqueness"
-    post "/validate_organization", to: "organizations#validate_uniqueness"
-
+    root to: 'home#index'
+    get '/profile', to: 'home#profile'
+    post '/validate_client', to: 'clients#validate_uniqueness'
+    post '/validate_organization', to: 'organizations#validate_uniqueness'
     resources :clients, only: [:index, :create, :update, :destroy]
     resources :organizations, only: [:index, :create, :update, :destroy]
   end
@@ -32,4 +30,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get 'staffs/*slug', to: 'staffs/home#index'
+  get 'clients/*slug', to: 'clients/home#index'
 end
