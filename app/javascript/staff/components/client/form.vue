@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { validationRules } from "../../utils/validations"
+import { validationRules } from "../../../packs/shared/utils/validations"
 
 export default {
   name: 'ClientForm',
