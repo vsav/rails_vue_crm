@@ -7,12 +7,14 @@ Rails.application.routes.draw do
   namespace :clients do
     root to: 'home#index'
     get '/profile', to: 'home#profile'
+    patch '/update_password', to: 'home#update_password'
     resources :organizations, only: :index
   end
 
   namespace :staffs do
     root to: 'home#index'
     get '/profile', to: 'home#profile'
+    patch '/update_password', to: 'home#update_password'
     post '/validate_client', to: 'clients#validate_uniqueness'
     post '/validate_organization', to: 'organizations#validate_uniqueness'
     resources :clients, only: [:index, :create, :update, :destroy]

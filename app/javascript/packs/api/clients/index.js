@@ -13,6 +13,7 @@ const adapter = axios.create({
 
 const api = {
   profile: () => adapter.get('/profile'),
+  update_password: (profile) => adapter.patch(`/update_password`, { client: profile }),
   sign_out: () => axios.get('/clients/sign_out'),
   organizations: {
     index: () => adapter.get('/organizations')

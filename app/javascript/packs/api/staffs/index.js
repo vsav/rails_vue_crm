@@ -14,6 +14,7 @@ const adapter = axios.create({
 const api = {
   profile: () => adapter.get('/profile'),
   sign_out: () => axios.get('/staffs/sign_out'),
+  update_password: (profile) => adapter.patch(`/update_password`, { staff: profile }),
   clients: {
     index: () => adapter.get('/clients'),
     create: (client) => adapter.post('/clients', client),
