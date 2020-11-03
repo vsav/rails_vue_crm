@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { validationRules } from "../../../packs/shared/utils/validations"
+import { validationRules } from "utils/validations"
 import { dadataClient } from "../../utils/dadataClient";
 
 export default {

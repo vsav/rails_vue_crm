@@ -15,7 +15,7 @@
         q-btn(@click="manageClients(organization)" icon="group_add" round)
         q-btn(@click="manageEquipment(organization)" icon="biotech" round)
     template(v-slot:top-right)
-      q-btn(label="Create Organization" color="primary" @click="showForm" class="q-ma-md right" )
+      q-btn.q-ma-md(label="Create Organization" color="primary" @click="showForm")
 </template>
 <script>
 import OrganizationForm from "./form";

@@ -11,7 +11,7 @@
           :selected.sync="selected"
           row-key="id"
         )
-        q-btn(@click.prevent="updateClientsList(organization)" label="Update" color="orange" icon="warning" class="q-ma-md")
+        q-btn.q-ma-md(@click.prevent="updateClientsList(organization)" label="Update" color="orange" icon="warning")
         q-btn(@click.prevent="hide()" label="Cancel" class="q-ma-md")
 
 </template>

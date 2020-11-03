@@ -11,7 +11,7 @@
         q-btn(@click.prevent="deleteEquipment(equipment)" icon="delete" round)
         q-btn(@click="editEquipment(equipment)" icon="edit" round v-model="equipment")
     template(v-slot:top-right)
-      q-btn(label="Create Equipment" color="primary" @click="showForm" class="q-ma-md right" )
+      q-btn.q-ma-md.right(label="Create Equipment" color="primary" @click="showForm")
 </template>
 <script>
 import EquipmentForm from "./form";

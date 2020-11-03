@@ -14,7 +14,7 @@
       q-td(:client="client")
         q-btn(@click="manageOrganizations(client)" icon="domain_disabled" round)
     template(v-slot:top-right)
-      q-btn(label="Create Client" color="primary" @click="showForm" class="q-ma-md right" )
+      q-btn.q-ma-md.right(label="Create Client" color="primary" @click="showForm")
 </template>
 <script>
   import ClientForm from "./form";

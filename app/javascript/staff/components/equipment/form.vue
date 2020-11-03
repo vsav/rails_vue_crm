@@ -1,11 +1,8 @@
 <template lang="pug">
   q-dialog(ref="equipmentFormDialog" persistent)
-    q-card(class="q-dialog-plugin")
+    q-card.q-dialog-plugin
       q-card-section
-        q-form(
-          ref="equipmentForm"
-          class="form q-gutter-md"
-        )
+        q-form.form.q-gutter-md(ref="equipmentForm")
           q-input(
             outlined
             v-model="equipment.name"
@@ -34,11 +31,11 @@
           )
       q-card-actions
         q-btn(type="submit" color="primary" @click="validate()") {{formAction}}
-        q-btn(@click.prevent="hide()" label="Cancel" class="q-ma-md")
+        q-btn.q-ma-md(@click.prevent="hide()" label="Cancel")
 </template>
 
 <script>
-import { validationRules } from "../../../packs/shared/utils/validations"
+import { validationRules } from "utils/validations"
 
 export default {
   name: 'EquipmentForm',
