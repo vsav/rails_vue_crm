@@ -98,7 +98,39 @@ organizations = Organization.create!([
                               structure: 'ZAO',
                               inn: '898234423',
                               ogrn: '4564823440172'
-                            },])
+                            }])
+equipment = Equipment.create!([
+                             {
+                                 name: 'MacBook Pro',
+                                 kind: 'laptop',
+                                 serial: '1122233MBP',
+                                 organization_id: organizations[0].id
+                             },
+                             {
+                                 name: 'HP LaserJet',
+                                 kind: 'Printer',
+                                 serial: '5465233LJ',
+                                 organization_id: organizations[0].id
+                             },
+                             {
+                                 name: 'HP DesignJet',
+                                 kind: 'plotter',
+                                 serial: '14322233DJ',
+                                 organization_id: organizations[0].id
+                             },
+                             {
+                                 name: 'iMac',
+                                 kind: 'desktop',
+                                 serial: '534522233IM',
+                                 organization_id: organizations[0].id
+                             },
+                             {
+                                 name: 'Microtik',
+                                 kind: 'router',
+                                 serial: '5242233MKT',
+                                 organization_id: organizations[0].id
+                             }])
+
 clients[0].organizations.push(organizations[2], organizations[3])
 clients[1].organizations.push(organizations[2], organizations[3])
 clients[2].organizations.push(organizations[2])

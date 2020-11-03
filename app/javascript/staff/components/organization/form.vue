@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-dialog(ref="organizationFormDialog")
+  q-dialog(ref="organizationFormDialog" persistent)
     q-card(class="q-dialog-plugin")
       q-card-section
         q-form(
@@ -62,10 +62,11 @@
           )
       q-card-actions
         q-btn(type="submit" color="primary" @click="validate()") {{formAction}}
+        q-btn(@click.prevent="hide()" label="Cancel" class="q-ma-md")
 </template>
 
 <script>
-import { validationRules } from "../../utils/validations";
+import { validationRules } from "utils/validations"
 import { dadataClient } from "../../utils/dadataClient";
 
 export default {
@@ -149,6 +150,7 @@ export default {
       this.$refs.organizationFormDialog.show()
     },
     hide () {
+      this.$router.push({name: 'organizations'})
       this.$refs.organizationFormDialog.hide()
     },
     populateFormFields(val) {

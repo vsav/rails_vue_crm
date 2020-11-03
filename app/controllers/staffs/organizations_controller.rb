@@ -4,7 +4,7 @@ class Staffs::OrganizationsController < ApplicationController
 
   def index
     organizations = Organization.all
-    render json: organizations, each_serializer: OrganizationWithClientsSerializer
+    render json: organizations, each_serializer: OrganizationFullSerializer
   end
 
   def create
@@ -19,8 +19,11 @@ class Staffs::OrganizationsController < ApplicationController
 
   def update
     clients_ids = params[:clients].pluck(:id)
+    equipment_ids = params[:equipment].pluck(:id)
+
     if @organization.update(organization_params)
       @organization.client_ids = clients_ids
+      @organization.equipment_ids = equipment_ids
       render json: @organization, serializer: OrganizationSerializer, status: :ok
     else
       render json: { errors: @organization.errors }, status: :unprocessable_entity

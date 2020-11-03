@@ -1,11 +1,8 @@
 <template lang="pug">
-  q-dialog(ref="clientFormDialog")
-    q-card(class="q-dialog-plugin")
+  q-dialog(ref="clientFormDialog" persistent)
+    q-card.q-dialog-plugin
       q-card-section
-        q-form(
-          ref="clientForm"
-          class="form q-gutter-md"
-          )
+        q-form.form.q-gutter-md(ref="clientForm")
           q-input(
             outlined
             v-model="client.full_name"
@@ -62,13 +59,13 @@
                 q-icon.cursor-pointer(
                   :name="isPwd ? 'visibility_off' : 'visibility'"
                   @click='isPwd = !isPwd')
-
       q-card-actions
         q-btn(type="submit" color="primary" @click="validate()") {{formAction}}
+        q-btn.q-ma-md(@click.prevent="hide()" label="Cancel")
 </template>
 
 <script>
-import { validationRules } from "../../utils/validations"
+import { validationRules } from "utils/validations"
 
 export default {
   name: 'ClientForm',
@@ -154,6 +151,7 @@ export default {
       this.$refs.clientFormDialog.show()
     },
     hide () {
+      this.$router.push({name: 'clients'})
       this.$refs.clientFormDialog.hide()
     }
   },

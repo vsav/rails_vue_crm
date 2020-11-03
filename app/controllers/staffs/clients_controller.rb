@@ -4,7 +4,7 @@ class Staffs::ClientsController < ApplicationController
 
   def index
     clients = Client.all
-    render json: clients, each_serializer: ClientWithOrganizationsSerializer
+    render json: clients, each_serializer: ClientFullSerializer
   end
 
   def create
@@ -21,7 +21,7 @@ class Staffs::ClientsController < ApplicationController
     organizations_ids = params[:organizations].pluck(:id)
     if @client.update(client_params)
       @client.organization_ids = organizations_ids
-      render json: @client, serializer: ClientWithOrganizationsSerializer, status: :ok
+      render json: @client, serializer: ClientFullSerializer, status: :ok
     else
       render json: { errors: @client.errors }, status: :unprocessable_entity
     end

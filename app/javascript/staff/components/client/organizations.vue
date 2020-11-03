@@ -11,8 +11,8 @@
           :selected.sync="selected"
           row-key="id"
         )
-        q-btn(@click.prevent="updateOrganizationsList(client)" label="Update" color="orange" icon="warning" class="q-ma-md")
-        q-btn(@click.prevent="hide()" label="Cancel" class="q-ma-md")
+        q-btn.q-ma-md(@click.prevent="updateOrganizationsList(client)" label="Update" color="orange" icon="warning")
+        q-btn.q-ma-md(@click.prevent="hide()" label="Cancel")
 </template>
 <script>
 export default {
@@ -86,6 +86,7 @@ export default {
       this.$refs.clientOrganizationsDialog.show()
     },
     hide () {
+      this.$router.push({name: 'clients'})
       this.$refs.clientOrganizationsDialog.hide()
     },
     selectOrganizations() {
