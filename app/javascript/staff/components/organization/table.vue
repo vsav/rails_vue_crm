@@ -5,6 +5,9 @@
     :columns="columns"
     :pagination.sync="pagination"
     row-key="id"
+    :filter="filter"
+    @request="onRequest"
+    binary-state-sort
   )
     template(v-slot:body-cell-actions="organization")
       q-td(:organization="organization")
@@ -15,6 +18,9 @@
         q-btn(@click="manageClients(organization)" icon="group_add" round)
         q-btn(@click="manageEquipment(organization)" icon="biotech" round)
     template(v-slot:top-right)
+      q-input(borderless dense debounce="300" v-model="filter" label="Name | INN | OGRN")
+        template(v-slot:prepend)
+          q-icon(name="search")
       q-btn.q-ma-md(label="Create Organization" color="primary" @click="showForm")
 </template>
 <script>
@@ -27,11 +33,16 @@ export default {
   data() {
     return {
       pagination: {
-        rowsPerPage: 10
+        sortBy: 'name',
+        descending: false,
+        page: 1,
+        rowsPerPage: 5,
+        rowsNumber: ''
       },
       errors: {},
       organizations: [],
       organization: {},
+      filter: '',
       columns: [
         {
           name: 'name',
@@ -44,8 +55,7 @@ export default {
           name: 'structure',
           label: 'Structure',
           field: 'structure',
-          align: 'left',
-          sortable: true
+          align: 'left'
         },
         {
           name: 'inn',
@@ -74,14 +84,27 @@ export default {
       ]
     }
   },
-  created() {
-    this.fetchOrganizations()
+  mounted () {
+    this.onRequest({
+      pagination: this.pagination,
+      filter: undefined
+    })
   },
   methods: {
-    fetchOrganizations() {
-      this.$api.organizations.index()
-        .then(({data}) => this.organizations = data)
-        .catch((error) => this.errors['fetch'] = error)
+    onRequest (props) {
+      const {page, sortBy, descending, rowsPerPage} = props.pagination
+      const filter = props.filter
+      this.loading = true
+      this.$api.organizations.index({ search: filter, sort_by: sortBy, page: page, descending: descending, per_page: rowsPerPage })
+          .then(({data}) => {
+            this.organizations = data.organizations
+            this.pagination.rowsNumber = data.meta.rows_number
+            this.pagination.rowsPerPage = rowsPerPage
+            this.pagination.page = data.meta.page
+            this.pagination.sortBy = sortBy
+            this.pagination.descending = descending })
+          .catch((error) => this.errors['fetch'] = error)
+          .finally(()=> this.loading = false)
     },
     setOrganization(organization) {
       this.organization = organization
