@@ -63,7 +63,7 @@ export default {
   methods: {
     fetchEquipment() {
       this.$api.equipment.index()
-          .then(({data}) => this.equipment = data)
+          .then(({data}) => this.equipment = data.equipment)
           .catch((error) => this.errors['fetch'] = error)
       this.selectEquipment()
     },
