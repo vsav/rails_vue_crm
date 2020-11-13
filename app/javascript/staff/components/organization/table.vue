@@ -1,7 +1,7 @@
 <template lang="pug">
   q-table(
     title="Organizations List"
-    :data="organizations"
+    :data="$store.state.organizations.data"
     :columns="columns"
     :pagination.sync="pagination"
     row-key="id"
@@ -27,6 +27,7 @@
 import OrganizationForm from "./form";
 import OrganizationClientsTable from "./clients"
 import OrganizationEquipmentTable from "./equipment"
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'OrganizationsTable',
@@ -40,7 +41,6 @@ export default {
         rowsNumber: ''
       },
       errors: {},
-      organizations: [],
       organization: {},
       filter: '',
       columns: [
@@ -87,22 +87,29 @@ export default {
   mounted () {
     this.onRequest({
       pagination: this.pagination,
-      filter: undefined
+      filter: ''
     })
   },
   methods: {
+    ...mapMutations({
+      STORE_DATA: 'organizations/STORE_DATA',
+    }),
     onRequest (props) {
       const {page, sortBy, descending, rowsPerPage} = props.pagination
       const filter = props.filter
+      this.fetchOrganizations(page, sortBy, descending, rowsPerPage, filter)
+    },
+    fetchOrganizations(page, sortBy, descending, rowsPerPage, filter) {
       this.loading = true
       this.$api.organizations.index({ search: filter, sort_by: sortBy, page: page, descending: descending, per_page: rowsPerPage })
           .then(({data}) => {
-            this.organizations = data.organizations
             this.pagination.rowsNumber = data.meta.rows_number
             this.pagination.rowsPerPage = rowsPerPage
             this.pagination.page = data.meta.page
             this.pagination.sortBy = sortBy
-            this.pagination.descending = descending })
+            this.pagination.descending = descending
+            this.STORE_DATA(data.organizations)
+          })
           .catch((error) => this.errors['fetch'] = error)
           .finally(()=> this.loading = false)
     },
@@ -112,9 +119,16 @@ export default {
     },
     deleteOrganization(organization) {
       const organization_id = organization.row.id
-      this.$api.organizations.delete(organization_id)
-        .then(() => this.fetchOrganizations())
-        .catch((error) => this.errors['delete'] = error)
+      this.$q.dialog({
+        title: 'Delete',
+        message: `Are you sure you want to delete ${organization.row.name} ?`,
+        cancel: true,
+        persistent: true,
+      }).onOk(() => {
+        this.$api.organizations.delete(organization_id)
+            .then(() => this.fetchOrganizations())
+            .catch((error) => this.errors['delete'] = error)
+      })
     },
     showForm() {
       this.$q.dialog({
