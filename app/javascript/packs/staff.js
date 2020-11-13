@@ -4,6 +4,7 @@ import './api/staffs'
 import './quasar'
 import router from '../staff/router'
 import store from '../staff/store'
+import '../staff/socket'
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = new Vue({
