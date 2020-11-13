@@ -84,15 +84,42 @@ export default {
       ]
     }
   },
+  channels: {
+    OrganizationsChannel: {
+      connected() {
+        console.log("connected to Organizations Channel");
+      },
+      rejected() {},
+      received(data) {
+        if (data.created) {
+          this.ADD_DATA(data.created)
+        }
+        if (data.updated) {
+          this.UPDATE_DATA(data.updated)
+        }
+        if (data.destroyed) {
+          this.DELETE_DATA(data.destroyed)
+        }
+      },
+      disconnected() {}
+    }
+  },
+
   mounted () {
     this.onRequest({
       pagination: this.pagination,
       filter: ''
     })
+    this.$cable.subscribe({
+      channel: 'OrganizationsChannel'
+    })
   },
   methods: {
     ...mapMutations({
       STORE_DATA: 'organizations/STORE_DATA',
+      ADD_DATA: 'organizations/ADD_DATA',
+      UPDATE_DATA: 'organizations/UPDATE_DATA',
+      DELETE_DATA: 'organizations/DELETE_DATA'
     }),
     onRequest (props) {
       const {page, sortBy, descending, rowsPerPage} = props.pagination
