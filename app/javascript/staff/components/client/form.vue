@@ -34,7 +34,7 @@
             @blur="validateUniqueness(client)"
             @input="emailUniq = true"
             )
-          template(v-if="!edited_client")
+          template(v-if="!editedClient")
             q-input(
               outlined
               v-model='client.password'
@@ -70,7 +70,7 @@ import { validationRules } from 'utils/validations'
 export default {
   name: 'ClientForm',
   props: {
-    edited_client: Object
+    editedClient: Object
   },
   data: function () {
     return {
@@ -124,7 +124,7 @@ export default {
       this.$refs.clientForm.validate()
         .then((response) => {
           if (response === true) {
-            this.edited_client ? this.updateClient(this.client) : this.createClient()
+            this.editedClient ? this.updateClient(this.client) : this.createClient()
           }
         })
     },
@@ -154,8 +154,8 @@ export default {
     }
   },
   created () {
-    if (this.edited_client) {
-      this.client = this.edited_client
+    if (this.editedClient) {
+      this.client = this.editedClient
       this.formAction = 'Update Client'
     } else {
       this.client = {}

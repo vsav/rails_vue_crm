@@ -19,10 +19,11 @@
 export default {
   name: 'OrganizationEquipmentTable',
   props: {
-    organization: Object
+    editedOrganization: Object
   },
   data () {
     return {
+      organization: this.editedOrganization,
       pagination: {
         rowsPerPage: 10
       },

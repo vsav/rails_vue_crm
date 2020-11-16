@@ -38,7 +38,11 @@ export default {
     getProfile () {
       this.$api.profile()
         .then(({ data }) => {
-          this.profile = data
+          if (data.staff) {
+            this.profile = data.staff
+          } else if (data.client) {
+            this.profile = data.client
+          }
         })
         .catch((error) => this.errors.push(error))
     },
@@ -50,7 +54,7 @@ export default {
       this.$q.dialog({
         component: resetPasswordForm,
         parent: this,
-        profile: this.profile
+        editedProfile: this.profile
       })
     }
   }

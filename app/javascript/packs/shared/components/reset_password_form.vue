@@ -41,10 +41,11 @@ import { validationRules } from '../utils/validations'
 export default {
   name: 'staffResetPasswordForm',
   props: {
-    profile: Object
+    editedProfile: Object
   },
   data: function () {
     return {
+      profile: this.editedProfile,
       loading: false,
       errors: [],
       isPwd: true,

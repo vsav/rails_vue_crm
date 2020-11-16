@@ -40,7 +40,7 @@ import { validationRules } from 'utils/validations'
 export default {
   name: 'EquipmentForm',
   props: {
-    edited_equipment: Object
+    editedEquipment: Object
   },
   data: function () {
     return {
@@ -86,7 +86,7 @@ export default {
       this.$refs.equipmentForm.validate()
         .then((response) => {
           if (response === true && this.serialUniq) {
-            this.edited_equipment ? this.updateEquipment(this.equipment) : this.createEquipment()
+            this.editedEquipment ? this.updateEquipment(this.equipment) : this.createEquipment()
           }
         })
     },
@@ -111,8 +111,8 @@ export default {
     }
   },
   created () {
-    if (this.edited_equipment) {
-      this.equipment = this.edited_equipment
+    if (this.editedEquipment) {
+      this.equipment = this.editedEquipment
       this.formAction = 'Update Equipment'
     } else {
       this.equipment = {}

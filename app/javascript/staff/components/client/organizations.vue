@@ -18,10 +18,11 @@
 export default {
   name: 'ClientOrganizationsTable',
   props: {
-    client: Object
+    editedClient: Object
   },
   data () {
     return {
+      client: this.editedClient,
       pagination: {
         rowsPerPage: 10
       },
@@ -69,7 +70,7 @@ export default {
   methods: {
     fetchOrganizations () {
       this.$api.organizations.index()
-        .then(({ data }) => { this.organizations = data })
+        .then(({ data }) => { this.organizations = data.organizations })
         .catch((error) => { this.errors.fetch = error })
       this.selectOrganizations()
     },

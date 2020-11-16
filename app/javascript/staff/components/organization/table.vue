@@ -168,7 +168,7 @@ export default {
       this.$q.dialog({
         component: OrganizationClientsTable,
         parent: this,
-        organization: organization.row
+        editedOrganization: organization.row
       })
     },
     manageEquipment (organization) {
@@ -176,7 +176,7 @@ export default {
       this.$q.dialog({
         component: OrganizationEquipmentTable,
         parent: this,
-        organization: organization.row
+        editedOrganization: organization.row
       })
     },
     editOrganization (organization) {
@@ -185,7 +185,7 @@ export default {
       this.$q.dialog({
         component: OrganizationForm,
         parent: this,
-        edited_organization: this.organization
+        editedOrganization: this.organization
       })
     }
   }

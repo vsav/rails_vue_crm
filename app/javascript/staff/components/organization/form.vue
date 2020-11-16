@@ -72,7 +72,7 @@ import { DadataClient } from '../../utils/dadataClient'
 export default {
   name: 'OrganizationForm',
   props: {
-    edited_organization: Object
+    editedOrganization: Object
   },
   data: function () {
     return {
@@ -123,7 +123,7 @@ export default {
       this.$refs.organizationForm.validate()
         .then((response) => {
           if (response === true) {
-            this.edited_organization ? this.updateOrganization(this.organization) : this.createOrganization()
+            this.editedOrganization ? this.updateOrganization(this.organization) : this.createOrganization()
           }
         })
     },
@@ -173,8 +173,8 @@ export default {
     }
   },
   created () {
-    if (this.edited_organization) {
-      this.organization = this.edited_organization
+    if (this.editedOrganization) {
+      this.organization = this.editedOrganization
       this.formAction = 'Update Organization'
     } else {
       this.organization = {}

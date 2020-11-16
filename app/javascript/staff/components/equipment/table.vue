@@ -62,7 +62,7 @@ export default {
   methods: {
     fetchEquipment () {
       this.$api.equipment.index()
-        .then(({ data }) => { this.equipmentList = data })
+        .then(({ data }) => { this.equipmentList = data.equipment })
         .catch((error) => { this.errors.fetch = error })
     },
     deleteEquipment (equipment) {
@@ -86,7 +86,7 @@ export default {
       this.$q.dialog({
         component: EquipmentForm,
         parent: this,
-        edited_equipment: this.equipment
+        editedEquipment: this.equipment
       })
     }
   }

@@ -95,7 +95,7 @@ export default {
       this.$q.dialog({
         component: ClientOrganizationsTable,
         parent: this,
-        client: client.row
+        editedClient: client.row
       })
     },
     editClient (client) {
@@ -104,7 +104,7 @@ export default {
       this.$q.dialog({
         component: ClientForm,
         parent: this,
-        edited_client: this.client
+        editedClient: this.client
       })
     }
   }
