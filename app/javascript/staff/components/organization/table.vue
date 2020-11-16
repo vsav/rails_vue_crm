@@ -1,7 +1,7 @@
 <template lang="pug">
   q-table(
     title="Organizations List"
-    :data="$store.state.organizations.data"
+    :data="organizations"
     :columns="columns"
     :pagination.sync="pagination"
     row-key="id"
@@ -27,7 +27,7 @@
 import OrganizationForm from './form'
 import OrganizationClientsTable from './clients'
 import OrganizationEquipmentTable from './equipment'
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'OrganizationsTable',
@@ -41,7 +41,10 @@ export default {
         rowsNumber: ''
       },
       errors: {},
-      organization: {},
+      organization: {
+        clients: [],
+        equipment: []
+      },
       filter: '',
       columns: [
         {
@@ -91,20 +94,30 @@ export default {
       },
       rejected () {},
       received (data) {
-        if (data.created) {
-          this.ADD_DATA(data.created)
+        if (data.action === 'create') {
+          const organization = data.organization
+          organization.clients = data.clients
+          organization.equipment = data.equipment
+          this.ADD_DATA(organization)
         }
-        if (data.updated) {
-          this.UPDATE_DATA(data.updated)
+        if (data.action === 'update') {
+          const organization = data.organization
+          organization.clients = data.clients
+          organization.equipment = data.equipment
+          this.UPDATE_DATA(organization)
         }
-        if (data.destroyed) {
-          this.DELETE_DATA(data.destroyed)
+        if (data.action === 'destroy') {
+          this.DELETE_DATA(data.organization)
         }
       },
       disconnected () {}
     }
   },
-
+  computed: {
+    ...mapState({
+      organizations: state => state.organizations.data
+    })
+  },
   mounted () {
     this.onRequest({
       pagination: this.pagination,
@@ -158,6 +171,7 @@ export default {
       })
     },
     showForm () {
+      this.$router.push({ name: 'new_organization' })
       this.$q.dialog({
         component: OrganizationForm,
         parent: this
