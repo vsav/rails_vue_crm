@@ -23,7 +23,7 @@ const api = {
     validate: (client) => adapter.post('/validate_client', client)
   },
   organizations: {
-    index: () => adapter.get('/organizations'),
+    index: (params) => adapter.get('/organizations', { params: params }),
     create: (organization) => adapter.post('/organizations', organization),
     update: (organization) => adapter.patch(`/organizations/${organization.id}`, organization),
     delete: (organization_id) => adapter.delete(`/organizations/${organization_id}`),

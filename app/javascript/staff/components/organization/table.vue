@@ -1,10 +1,13 @@
 <template lang="pug">
   q-table(
     title="Organizations List"
-    :data="organizations"
+    :data="$store.state.organizations.data"
     :columns="columns"
     :pagination.sync="pagination"
     row-key="id"
+    :filter="filter"
+    @request="onRequest"
+    binary-state-sort
   )
     template(v-slot:body-cell-actions="organization")
       q-td(:organization="organization")
@@ -15,23 +18,31 @@
         q-btn(@click="manageClients(organization)" icon="group_add" round)
         q-btn(@click="manageEquipment(organization)" icon="biotech" round)
     template(v-slot:top-right)
+      q-input(borderless dense debounce="300" v-model="filter" label="Name | INN | OGRN")
+        template(v-slot:prepend)
+          q-icon(name="search")
       q-btn.q-ma-md(label="Create Organization" color="primary" @click="showForm")
 </template>
 <script>
 import OrganizationForm from "./form";
 import OrganizationClientsTable from "./clients"
 import OrganizationEquipmentTable from "./equipment"
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'OrganizationsTable',
   data() {
     return {
       pagination: {
-        rowsPerPage: 10
+        sortBy: 'name',
+        descending: false,
+        page: 1,
+        rowsPerPage: 5,
+        rowsNumber: ''
       },
       errors: {},
-      organizations: [],
       organization: {},
+      filter: '',
       columns: [
         {
           name: 'name',
@@ -44,8 +55,7 @@ export default {
           name: 'structure',
           label: 'Structure',
           field: 'structure',
-          align: 'left',
-          sortable: true
+          align: 'left'
         },
         {
           name: 'inn',
@@ -74,14 +84,61 @@ export default {
       ]
     }
   },
-  created() {
-    this.fetchOrganizations()
+  channels: {
+    OrganizationsChannel: {
+      connected() {
+        console.log("connected to Organizations Channel");
+      },
+      rejected() {},
+      received(data) {
+        if (data.created) {
+          this.ADD_DATA(data.created)
+        }
+        if (data.updated) {
+          this.UPDATE_DATA(data.updated)
+        }
+        if (data.destroyed) {
+          this.DELETE_DATA(data.destroyed)
+        }
+      },
+      disconnected() {}
+    }
+  },
+
+  mounted () {
+    this.onRequest({
+      pagination: this.pagination,
+      filter: ''
+    })
+    this.$cable.subscribe({
+      channel: 'OrganizationsChannel'
+    })
   },
   methods: {
-    fetchOrganizations() {
-      this.$api.organizations.index()
-        .then(({data}) => this.organizations = data)
-        .catch((error) => this.errors['fetch'] = error)
+    ...mapMutations({
+      STORE_DATA: 'organizations/STORE_DATA',
+      ADD_DATA: 'organizations/ADD_DATA',
+      UPDATE_DATA: 'organizations/UPDATE_DATA',
+      DELETE_DATA: 'organizations/DELETE_DATA'
+    }),
+    onRequest (props) {
+      const {page, sortBy, descending, rowsPerPage} = props.pagination
+      const filter = props.filter
+      this.fetchOrganizations(page, sortBy, descending, rowsPerPage, filter)
+    },
+    fetchOrganizations(page, sortBy, descending, rowsPerPage, filter) {
+      this.loading = true
+      this.$api.organizations.index({ search: filter, sort_by: sortBy, page: page, descending: descending, per_page: rowsPerPage })
+          .then(({data}) => {
+            this.pagination.rowsNumber = data.meta.rows_number
+            this.pagination.rowsPerPage = rowsPerPage
+            this.pagination.page = data.meta.page
+            this.pagination.sortBy = sortBy
+            this.pagination.descending = descending
+            this.STORE_DATA(data.organizations)
+          })
+          .catch((error) => this.errors['fetch'] = error)
+          .finally(()=> this.loading = false)
     },
     setOrganization(organization) {
       this.organization = organization
@@ -89,9 +146,16 @@ export default {
     },
     deleteOrganization(organization) {
       const organization_id = organization.row.id
-      this.$api.organizations.delete(organization_id)
-        .then(() => this.fetchOrganizations())
-        .catch((error) => this.errors['delete'] = error)
+      this.$q.dialog({
+        title: 'Delete',
+        message: `Are you sure you want to delete ${organization.row.name} ?`,
+        cancel: true,
+        persistent: true,
+      }).onOk(() => {
+        this.$api.organizations.delete(organization_id)
+            .then(() => this.fetchOrganizations())
+            .catch((error) => this.errors['delete'] = error)
+      })
     },
     showForm() {
       this.$q.dialog({

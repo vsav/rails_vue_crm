@@ -63,7 +63,7 @@ export default {
   methods: {
     fetchClients() {
       this.$api.clients.index()
-        .then(({data}) => this.clients = data)
+        .then(({data}) => this.clients = data.clients)
         .catch((error) => this.errors['fetch'] = error)
       this.selectClients()
     },

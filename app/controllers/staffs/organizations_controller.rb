@@ -3,8 +3,14 @@ class Staffs::OrganizationsController < ApplicationController
   before_action :find_organization, only: [:update, :destroy]
 
   def index
-    organizations = Organization.all
-    render json: organizations, each_serializer: OrganizationFullSerializer
+    organizations = FindOrganizations.new(Organization.all)
+                                     .call(params)
+                                     .page(params[:page])
+                                     .per(params[:per_page])
+
+    render json: organizations, each_serializer: OrganizationFullSerializer,
+           meta: {rows_number:organizations.total_count, page: organizations.current_page}
+
   end
 
   def create
