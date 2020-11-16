@@ -21,7 +21,7 @@ export default {
   props: {
     organization: Object
   },
-  data() {
+  data () {
     return {
       pagination: {
         rowsPerPage: 10
@@ -54,36 +54,36 @@ export default {
       ]
     }
   },
-  created() {
+  created () {
     this.fetchEquipment()
   },
-  updated() {
+  updated () {
     this.organization.equipment = this.selected
   },
   methods: {
-    fetchEquipment() {
+    fetchEquipment () {
       this.$api.equipment.index()
-          .then(({data}) => this.equipment = data.equipment)
-          .catch((error) => this.errors['fetch'] = error)
+        .then(({ data }) => { this.equipment = data.equipment })
+        .catch((error) => { this.errors.fetch = error })
       this.selectEquipment()
     },
-    updateEquipmentList(organization) {
+    updateEquipmentList (organization) {
       this.loading = true
       this.$api.organizations.update(organization)
-          .catch((error) => this.errors['update'] = error)
-          .finally(() => {
-            this.loading = false
-            this.hide()
-          })
+        .catch((error) => { this.errors.update = error })
+        .finally(() => {
+          this.loading = false
+          this.hide()
+        })
     },
     show () {
       this.$refs.organizationEquipmentDialog.show()
     },
     hide () {
-      this.$router.push({name: 'organizations'})
+      this.$router.push({ name: 'organizations' })
       this.$refs.organizationEquipmentDialog.hide()
     },
-    selectEquipment() {
+    selectEquipment () {
       this.organization.equipment.forEach(equipment => {
         this.selected.push(equipment)
       })
@@ -91,4 +91,3 @@ export default {
   }
 }
 </script>
-

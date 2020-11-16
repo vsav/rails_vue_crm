@@ -1,7 +1,7 @@
 export default {
   state: {
     organizations: [],
-    organization: {},
+    organization: {}
   },
   mutations: {
     STORE_DATA: (state, organizations) => {
@@ -13,12 +13,12 @@ export default {
     },
 
     UPDATE_DATA: (state, data) => {
-      let index = state.data.findIndex(organization => organization.id === data.id)
+      const index = state.data.findIndex(organization => organization.id === data.id)
       state.data.splice(index, 1)
     },
 
     DELETE_DATA: (state, data) => {
-      let index = state.data.findIndex(organization => organization.id === data.id)
+      const index = state.data.findIndex(organization => organization.id === data.id)
       state.data.splice(index, 1)
     }
   },

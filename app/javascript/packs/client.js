@@ -4,8 +4,8 @@ import './api/clients'
 import './quasar'
 
 document.addEventListener('DOMContentLoaded', () => {
-    const app = new Vue({
-        render: h => h(App)
-    }).$mount()
-    document.body.appendChild(app.$el)
+  const app = new Vue({
+    render: h => h(App)
+  }).$mount()
+  document.body.appendChild(app.$el)
 })

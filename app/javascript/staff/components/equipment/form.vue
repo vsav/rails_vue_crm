@@ -35,14 +35,14 @@
 </template>
 
 <script>
-import { validationRules } from "utils/validations"
+import { validationRules } from 'utils/validations'
 
 export default {
   name: 'EquipmentForm',
   props: {
     edited_equipment: Object
   },
-  data: function() {
+  data: function () {
     return {
       loading: false,
       uniqueness: {},
@@ -50,7 +50,7 @@ export default {
       equipment: {
         name: '',
         kind: '',
-        serial: '',
+        serial: ''
       },
       serialUniq: true,
       validationRules,
@@ -58,61 +58,60 @@ export default {
     }
   },
   methods: {
-    createEquipment() {
+    createEquipment () {
       this.loading = true
       const equipment = this.equipment
-      this.$api.equipment.create({equipment})
-          .catch((error) => this.errors['create'] = error)
-          .finally(() => {
-            this.loading = false
-            this.clearForm()
-          })
+      this.$api.equipment.create({ equipment })
+        .catch((error) => { this.errors.create = error })
+        .finally(() => {
+          this.loading = false
+          this.clearForm()
+        })
     },
-    updateEquipment(equipment) {
+    updateEquipment (equipment) {
       this.loading = true
       this.$api.equipment.update(equipment)
-          .catch((error) => this.errors['update'] = error)
-          .finally(() => {
-            this.loading = false
-          })
+        .catch((error) => { this.errors.update = error })
+        .finally(() => {
+          this.loading = false
+        })
     },
 
-    clearForm() {
+    clearForm () {
       this.equipment.name = ''
       this.equipment.kind = ''
       this.equipment.serial = ''
     },
-    validate() {
+    validate () {
       this.$refs.equipmentForm.validate()
-          .then((response) => {
-            if(response === true && this.serialUniq) {
-              this.edited_equipment? this.updateEquipment(this.equipment) : this.createEquipment()
-            }
-          })
+        .then((response) => {
+          if (response === true && this.serialUniq) {
+            this.edited_equipment ? this.updateEquipment(this.equipment) : this.createEquipment()
+          }
+        })
     },
-    validateUniqueness(equipment) {
+    validateUniqueness (equipment) {
       this.$api.equipment.validate(equipment)
-          .then(({data}) => {
-            if(data.uniqueness.serial) {
-              this.uniqueness.serial = data.uniqueness.serial
-              this.serialUniq = false
-            }
-            else {
-              delete this.uniqueness.serial
-              this.serialUniq = true
-            }
-          })
+        .then(({ data }) => {
+          if (data.uniqueness.serial) {
+            this.uniqueness.serial = data.uniqueness.serial
+            this.serialUniq = false
+          } else {
+            delete this.uniqueness.serial
+            this.serialUniq = true
+          }
+        })
     },
     show () {
       this.$refs.equipmentFormDialog.show()
     },
     hide () {
-      this.$router.push({name: 'equipment_list'})
+      this.$router.push({ name: 'equipment_list' })
       this.$refs.equipmentFormDialog.hide()
     }
   },
-  created() {
-    if(this.edited_equipment) {
+  created () {
+    if (this.edited_equipment) {
       this.equipment = this.edited_equipment
       this.formAction = 'Update Equipment'
     } else {

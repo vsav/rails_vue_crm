@@ -10,7 +10,7 @@ const validationRules = {
   ],
   email: [
     v => !!v || 'Can\'t be blank',
-    v => (v && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v)) || 'Must be valid email address'
+    v => (v && /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v)) || 'Must be valid email address'
   ],
   password: [
     v => !!v || 'Can\'t be blank',
@@ -48,4 +48,3 @@ const validationRules = {
 }
 
 export { validationRules }
-

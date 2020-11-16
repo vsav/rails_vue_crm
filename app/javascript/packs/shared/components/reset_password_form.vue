@@ -36,43 +36,43 @@
 </template>
 
 <script>
-import { validationRules } from "../utils/validations"
+import { validationRules } from '../utils/validations'
 
 export default {
   name: 'staffResetPasswordForm',
   props: {
     profile: Object
   },
-  data: function() {
+  data: function () {
     return {
       loading: false,
       errors: [],
       isPwd: true,
-      validationRules,
+      validationRules
     }
   },
   methods: {
-    updatePassword(profile) {
+    updatePassword (profile) {
       this.loading = true
       this.$api.update_password(profile)
-          .catch((error) => this.errors['updatePassword'] = error)
-          .finally(() => {
-            this.loading = false
-            this.hide()
-          })
+        .catch((error) => { this.errors.updatePassword = error })
+        .finally(() => {
+          this.loading = false
+          this.hide()
+        })
     },
-    clearForm() {
+    clearForm () {
       this.profile.password = ''
       this.profile.password_confirmation = ''
     },
-    validate() {
+    validate () {
       this.$refs.resetPasswordForm.validate()
-          .then((response) => {
-            if(response === true) {
-              this.updatePassword(this.profile)
-              this.clearForm()
-            }
-          })
+        .then((response) => {
+          if (response === true) {
+            this.updatePassword(this.profile)
+            this.clearForm()
+          }
+        })
     },
     show () {
       this.$refs.resetPasswordDialog.show()

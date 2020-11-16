@@ -17,96 +17,96 @@
       q-btn.q-ma-md.right(label="Create Client" color="primary" @click="showForm")
 </template>
 <script>
-  import ClientForm from "./form";
-  import ClientOrganizationsTable from "./organizations"
+import ClientForm from './form'
+import ClientOrganizationsTable from './organizations'
 
-  export default {
-    name: 'ClientsTable',
-    data() {
-      return {
-        pagination: {
-          rowsPerPage: 10
+export default {
+  name: 'ClientsTable',
+  data () {
+    return {
+      pagination: {
+        rowsPerPage: 10
+      },
+      errors: {},
+      clients: [],
+      client: {},
+      columns: [
+        {
+          name: 'full_name',
+          label: 'Full name',
+          field: 'full_name',
+          align: 'left',
+          sortable: true
         },
-        errors: {},
-        clients: [],
-        client: {},
-        columns: [
-          {
-            name: 'full_name',
-            label: 'Full name',
-            field: 'full_name',
-            align: 'left',
-            sortable: true
-          },
-          {
-            name: 'email',
-            label: 'Email',
-            field: 'email',
-            align: 'left',
-            sortable: true
-          },
-          {
-            name: 'phone',
-            label: 'Phone',
-            field: 'phone',
-            align: 'left',
-            sortable: true
-          },
-          {
-            name: 'organizations',
-            label: 'Organizations',
-            align: 'left'
-          },
-          {
-            name: 'actions',
-            label: 'Actions',
-            align: 'left'
-          }
-        ]
-      }
+        {
+          name: 'email',
+          label: 'Email',
+          field: 'email',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'phone',
+          label: 'Phone',
+          field: 'phone',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'organizations',
+          label: 'Organizations',
+          align: 'left'
+        },
+        {
+          name: 'actions',
+          label: 'Actions',
+          align: 'left'
+        }
+      ]
+    }
+  },
+  created () {
+    this.fetchClients()
+  },
+  methods: {
+    fetchClients () {
+      this.$api.clients.index()
+        .then(({ data }) => { this.clients = data.clients })
+        .catch((error) => { this.errors.fetch = error })
     },
-    created() {
-      this.fetchClients()
+    deleteClient (client) {
+      const clientId = client.row.id
+      this.$api.clients.delete(clientId)
+        .then(() => this.fetchClients())
+        .catch((error) => { this.errors.delete = error })
     },
-    methods: {
-      fetchClients() {
-        this.$api.clients.index()
-          .then(({data}) => this.clients = data.clients)
-          .catch((error) => this.errors['fetch'] = error)
-      },
-      deleteClient(client) {
-        const client_id = client.row.id
-        this.$api.clients.delete(client_id)
-          .then(() => this.fetchClients())
-          .catch((error) => this.errors['delete'] = error)
-      },
-      setClient(client) {
-        this.client = client
-        this.client.organizations = client.organizations
-      },
-      showForm() {
-        this.$q.dialog({
-          component: ClientForm,
-          parent: this
-        })
-      },
-      manageOrganizations(client) {
-        this.$router.push({ name: 'manage_client_organizations', params: {id: client.row.id }})
-        this.$q.dialog({
-          component: ClientOrganizationsTable,
-          parent: this,
-          client: client.row
-        })
-      },
-      editClient(client) {
-        this.setClient(client.row)
-        this.$router.push({ name: 'edit_client', params: {id: client.row.id }})
-        this.$q.dialog({
-          component: ClientForm,
-          parent: this,
-          edited_client: this.client
-        })
-      }
+    setClient (client) {
+      this.client = client
+      this.client.organizations = client.organizations
+    },
+    showForm () {
+      this.$q.dialog({
+        component: ClientForm,
+        parent: this
+      })
+    },
+    manageOrganizations (client) {
+      this.$router.push({ name: 'manage_client_organizations', params: { id: client.row.id } })
+      this.$q.dialog({
+        component: ClientOrganizationsTable,
+        parent: this,
+        client: client.row
+      })
+    },
+    editClient (client) {
+      this.setClient(client.row)
+      this.$router.push({ name: 'edit_client', params: { id: client.row.id } })
+      this.$q.dialog({
+        component: ClientForm,
+        parent: this,
+        edited_client: this.client
+      })
     }
   }
+}
 </script>

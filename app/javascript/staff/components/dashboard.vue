@@ -14,14 +14,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'Dashboard',
-    data: function () {
-      return {
-        tab: ''
-      }
+export default {
+  name: 'Dashboard',
+  data: function () {
+    return {
+      tab: ''
     }
   }
+}
 </script>
 
 <style lang="sass" scoped>

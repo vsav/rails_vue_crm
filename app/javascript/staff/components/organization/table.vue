@@ -24,14 +24,14 @@
       q-btn.q-ma-md(label="Create Organization" color="primary" @click="showForm")
 </template>
 <script>
-import OrganizationForm from "./form";
-import OrganizationClientsTable from "./clients"
-import OrganizationEquipmentTable from "./equipment"
+import OrganizationForm from './form'
+import OrganizationClientsTable from './clients'
+import OrganizationEquipmentTable from './equipment'
 import { mapMutations } from 'vuex'
 
 export default {
   name: 'OrganizationsTable',
-  data() {
+  data () {
     return {
       pagination: {
         sortBy: 'name',
@@ -86,11 +86,11 @@ export default {
   },
   channels: {
     OrganizationsChannel: {
-      connected() {
-        console.log("connected to Organizations Channel");
+      connected () {
+        console.log('connected to Organizations Channel')
       },
-      rejected() {},
-      received(data) {
+      rejected () {},
+      received (data) {
         if (data.created) {
           this.ADD_DATA(data.created)
         }
@@ -101,7 +101,7 @@ export default {
           this.DELETE_DATA(data.destroyed)
         }
       },
-      disconnected() {}
+      disconnected () {}
     }
   },
 
@@ -122,66 +122,66 @@ export default {
       DELETE_DATA: 'organizations/DELETE_DATA'
     }),
     onRequest (props) {
-      const {page, sortBy, descending, rowsPerPage} = props.pagination
+      const { page, sortBy, descending, rowsPerPage } = props.pagination
       const filter = props.filter
       this.fetchOrganizations(page, sortBy, descending, rowsPerPage, filter)
     },
-    fetchOrganizations(page, sortBy, descending, rowsPerPage, filter) {
+    fetchOrganizations (page, sortBy, descending, rowsPerPage, filter) {
       this.loading = true
       this.$api.organizations.index({ search: filter, sort_by: sortBy, page: page, descending: descending, per_page: rowsPerPage })
-          .then(({data}) => {
-            this.pagination.rowsNumber = data.meta.rows_number
-            this.pagination.rowsPerPage = rowsPerPage
-            this.pagination.page = data.meta.page
-            this.pagination.sortBy = sortBy
-            this.pagination.descending = descending
-            this.STORE_DATA(data.organizations)
-          })
-          .catch((error) => this.errors['fetch'] = error)
-          .finally(()=> this.loading = false)
+        .then(({ data }) => {
+          this.pagination.rowsNumber = data.meta.rows_number
+          this.pagination.rowsPerPage = rowsPerPage
+          this.pagination.page = data.meta.page
+          this.pagination.sortBy = sortBy
+          this.pagination.descending = descending
+          this.STORE_DATA(data.organizations)
+        })
+        .catch((error) => { this.errors.fetch = error })
+        .finally(() => { this.loading = false })
     },
-    setOrganization(organization) {
+    setOrganization (organization) {
       this.organization = organization
       this.organization.clients = organization.clients
     },
-    deleteOrganization(organization) {
-      const organization_id = organization.row.id
+    deleteOrganization (organization) {
+      const organizationId = organization.row.id
       this.$q.dialog({
         title: 'Delete',
         message: `Are you sure you want to delete ${organization.row.name} ?`,
         cancel: true,
-        persistent: true,
+        persistent: true
       }).onOk(() => {
-        this.$api.organizations.delete(organization_id)
-            .then(() => this.fetchOrganizations())
-            .catch((error) => this.errors['delete'] = error)
+        this.$api.organizations.delete(organizationId)
+          .then(() => this.fetchOrganizations())
+          .catch((error) => { this.errors.delete = error })
       })
     },
-    showForm() {
+    showForm () {
       this.$q.dialog({
         component: OrganizationForm,
         parent: this
       })
     },
-    manageClients(organization) {
-      this.$router.push({ name: 'manage_organization_clients', params: {id: organization.row.id }})
+    manageClients (organization) {
+      this.$router.push({ name: 'manage_organization_clients', params: { id: organization.row.id } })
       this.$q.dialog({
         component: OrganizationClientsTable,
         parent: this,
         organization: organization.row
       })
     },
-    manageEquipment(organization) {
-      this.$router.push({ name: 'manage_organization_equipment', params: {id: organization.row.id }})
+    manageEquipment (organization) {
+      this.$router.push({ name: 'manage_organization_equipment', params: { id: organization.row.id } })
       this.$q.dialog({
         component: OrganizationEquipmentTable,
         parent: this,
         organization: organization.row
       })
     },
-    editOrganization(organization) {
+    editOrganization (organization) {
       this.setOrganization(organization.row)
-      this.$router.push({ name: 'edit_organization', params: {id: organization.row.id }})
+      this.$router.push({ name: 'edit_organization', params: { id: organization.row.id } })
       this.$q.dialog({
         component: OrganizationForm,
         parent: this,
