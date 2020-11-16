@@ -17,6 +17,7 @@ class Staffs::OrganizationsController < ApplicationController
     organization = Organization.new(organization_params)
 
     if organization.save
+      cable_broadcast(:create, organization)
       render json: organization, serializer: OrganizationSerializer, status: :created
     else
       render json: { errors: organization.errors }, status: :unprocessable_entity
@@ -24,12 +25,13 @@ class Staffs::OrganizationsController < ApplicationController
   end
 
   def update
-    clients_ids = params[:clients].pluck(:id)
-    equipment_ids = params[:equipment].pluck(:id)
+    clients_ids = params[:clients].pluck(:id) if params[:clients]
+    equipment_ids = params[:equipment].pluck(:id) if params[:equipment]
 
     if @organization.update(organization_params)
       @organization.client_ids = clients_ids
       @organization.equipment_ids = equipment_ids
+      cable_broadcast(:update, @organization)
       render json: @organization, serializer: OrganizationSerializer, status: :ok
     else
       render json: { errors: @organization.errors }, status: :unprocessable_entity
@@ -37,6 +39,7 @@ class Staffs::OrganizationsController < ApplicationController
   end
 
   def destroy
+    cable_broadcast(:destroy, @organization)
     @organization.destroy
   end
 
@@ -57,6 +60,13 @@ class Staffs::OrganizationsController < ApplicationController
   end
 
   private
+
+  def cable_broadcast(action, organization)
+    ActionCable.server.broadcast('organizations', { action: action,
+                                                    organization: organization,
+                                                    clients: organization.clients,
+                                                    equipment: organization.equipment })
+  end
 
   def find_organization
     @organization = Organization.find(params[:id])
