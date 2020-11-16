@@ -75,6 +75,7 @@ export default {
       this.equipment = equipment
     },
     showForm () {
+      this.$router.push({ name: 'new_equipment' })
       this.$q.dialog({
         component: EquipmentForm,
         parent: this

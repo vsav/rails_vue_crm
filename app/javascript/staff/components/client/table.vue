@@ -85,6 +85,7 @@ export default {
       this.client.organizations = client.organizations
     },
     showForm () {
+      this.$router.push({ name: 'new_client' })
       this.$q.dialog({
         component: ClientForm,
         parent: this

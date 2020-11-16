@@ -33,6 +33,11 @@ const router = new VueRouter({
       name: 'clients',
       children: [
         {
+          path: '/clients/new',
+          component: ClientForm,
+          name: 'new_client'
+        },
+        {
           path: '/clients/:id/edit',
           component: ClientForm,
           name: 'edit_client'
@@ -49,6 +54,11 @@ const router = new VueRouter({
       component: OrganizationsTable,
       name: 'organizations',
       children: [
+        {
+          path: '/organizations/new',
+          component: OrganizationForm,
+          name: 'new_organization'
+        },
         {
           path: '/organizations/:id/edit',
           component: OrganizationForm,
@@ -71,6 +81,11 @@ const router = new VueRouter({
       component: EquipmentTable,
       name: 'equipment_list',
       children: [
+        {
+          path: '/equipment_list/new',
+          component: EquipmentForm,
+          name: 'new_equipment'
+        },
         {
           path: '/equipment_list/:id/edit',
           component: EquipmentForm,
