@@ -9,20 +9,20 @@
 </template>
 
 <script>
-  import Navbar from './packs/shared/components/navbar'
-  import Dashboard from './staff/components/dashboard'
-  import Loading from './packs/shared/components/loading'
+import Navbar from './packs/shared/components/navbar'
+import Dashboard from './staff/components/dashboard'
+import Loading from './packs/shared/components/loading'
 
-  export default {
-    data: function() {
-      return {
-        loading: false
-      }
-    },
-    components: {
-      Navbar,
-      Dashboard,
-      Loading
+export default {
+  data: function () {
+    return {
+      loading: false
     }
+  },
+  components: {
+    Navbar,
+    Dashboard,
+    Loading
   }
+}
 </script>

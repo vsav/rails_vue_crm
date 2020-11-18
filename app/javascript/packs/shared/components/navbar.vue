@@ -21,40 +21,44 @@
                 q-btn(flat icon="highlight_off" @click="sign_out" align="left" :ripple="false") Sign out
 </template>
 <script>
-  import resetPasswordForm from "./reset_password_form";
+import resetPasswordForm from './reset_password_form'
 
-  export default {
-    name: 'Navbar',
-    data: function() {
-      return {
-        errors: [],
-        profile: {}
-      }
-    },
-    created() {
-      this.getProfile()
-    },
-    methods: {
-      getProfile() {
-        this.$api.profile()
-          .then(({data}) => {
-            this.profile = data
-          })
-          .catch((error) => this.errors.push(error))
-      },
-      sign_out() {
-        this.$api.sign_out()
-          .then(() => location.replace('/'))
-      },
-      change_password() {
-        this.$q.dialog({
-          component: resetPasswordForm,
-          parent: this,
-          profile: this.profile
+export default {
+  name: 'Navbar',
+  data: function () {
+    return {
+      errors: [],
+      profile: {}
+    }
+  },
+  created () {
+    this.getProfile()
+  },
+  methods: {
+    getProfile () {
+      this.$api.profile()
+        .then(({ data }) => {
+          if (data.staff) {
+            this.profile = data.staff
+          } else if (data.client) {
+            this.profile = data.client
+          }
         })
-      }
+        .catch((error) => this.errors.push(error))
+    },
+    sign_out () {
+      this.$api.sign_out()
+        .then(() => location.replace('/'))
+    },
+    change_password () {
+      this.$q.dialog({
+        component: resetPasswordForm,
+        parent: this,
+        editedProfile: this.profile
+      })
     }
   }
+}
 </script>
 
 <style lang="sass" scoped>

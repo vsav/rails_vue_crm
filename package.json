@@ -9,6 +9,7 @@
     "@rails/webpacker": "4.3.0",
     "actioncable-vue": "^2.3.2",
     "axios": "^0.20.0",
+    "dotenv": "^8.2.0",
     "quasar": "^1.14.0",
     "turbolinks": "^5.2.0",
     "vue": "^2.6.12",
@@ -20,10 +21,20 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.12.1",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.2",
+    "eslint-plugin-vue": "^7.1.0",
     "node-sass": "^4.14.1",
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^10.0.2",
     "webpack-dev-server": "^3.11.0"
+
   }
 }

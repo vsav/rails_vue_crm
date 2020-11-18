@@ -33,14 +33,19 @@ const router = new VueRouter({
       name: 'clients',
       children: [
         {
+          path: '/clients/new',
+          component: ClientForm,
+          name: 'new_client'
+        },
+        {
           path: '/clients/:id/edit',
           component: ClientForm,
-          name: 'edit_client',
+          name: 'edit_client'
         },
         {
           path: '/clients/:id/manage_organizations',
           component: ClientOrganizationsTable,
-          name: 'manage_client_organizations',
+          name: 'manage_client_organizations'
         }
       ]
     },
@@ -50,19 +55,24 @@ const router = new VueRouter({
       name: 'organizations',
       children: [
         {
+          path: '/organizations/new',
+          component: OrganizationForm,
+          name: 'new_organization'
+        },
+        {
           path: '/organizations/:id/edit',
           component: OrganizationForm,
-          name: 'edit_organization',
+          name: 'edit_organization'
         },
         {
           path: '/organizations/:id/manage_clients',
           component: OrganizationClientsTable,
-          name: 'manage_organization_clients',
+          name: 'manage_organization_clients'
         },
         {
           path: '/organizations/:id/manage_equipment',
           component: OrganizationEquipmentTable,
-          name: 'manage_organization_equipment',
+          name: 'manage_organization_equipment'
         }
       ]
     },
@@ -72,9 +82,14 @@ const router = new VueRouter({
       name: 'equipment_list',
       children: [
         {
+          path: '/equipment_list/new',
+          component: EquipmentForm,
+          name: 'new_equipment'
+        },
+        {
           path: '/equipment_list/:id/edit',
           component: EquipmentForm,
-          name: 'edit_equipment',
+          name: 'edit_equipment'
         }
       ]
     }

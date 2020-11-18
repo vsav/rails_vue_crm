@@ -12,7 +12,7 @@
 <script>
 export default {
   name: 'ClientOrganizationsTable',
-  data() {
+  data () {
     return {
       pagination: {
         rowsPerPage: 10
@@ -51,14 +51,14 @@ export default {
       ]
     }
   },
-  created() {
+  created () {
     this.fetchOrganizations()
   },
   methods: {
-    fetchOrganizations() {
+    fetchOrganizations () {
       this.$api.organizations.index()
-        .then(({data}) => this.clientOrganizations = data)
-        .catch((error) => this.errors['fetch'] = error)
+        .then(({ data }) => { this.clientOrganizations = data })
+        .catch((error) => { this.errors.fetch = error })
     }
   }
 }

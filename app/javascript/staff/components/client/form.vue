@@ -34,7 +34,7 @@
             @blur="validateUniqueness(client)"
             @input="emailUniq = true"
             )
-          template(v-if="!edited_client")
+          template(v-if="!editedClient")
             q-input(
               outlined
               v-model='client.password'
@@ -65,14 +65,14 @@
 </template>
 
 <script>
-import { validationRules } from "utils/validations"
+import { validationRules } from 'utils/validations'
 
 export default {
   name: 'ClientForm',
   props: {
-    edited_client: Object
+    editedClient: Object
   },
-  data: function() {
+  data: function () {
     return {
       loading: false,
       uniqueness: {},
@@ -93,53 +93,51 @@ export default {
     }
   },
   methods: {
-    createClient() {
+    createClient () {
       this.loading = true
       const client = this.client
-      this.$api.clients.create({client})
-        .catch((error) => this.errors['create'] = error)
+      this.$api.clients.create({ client })
+        .catch((error) => { this.errors.create = error })
         .finally(() => {
           this.loading = false
           this.clearForm()
         })
     },
-    updateClient(client) {
+    updateClient (client) {
       this.loading = true
       this.$api.clients.update(client)
-        .catch((error) => this.errors['update'] = error)
+        .catch((error) => { this.errors.update = error })
         .finally(() => {
           this.loading = false
           this.hide()
         })
     },
 
-    clearForm() {
+    clearForm () {
       this.client.full_name = ''
       this.client.email = ''
       this.client.phone = ''
       this.client.password = ''
       this.client.password_confirmation = ''
     },
-    validate() {
+    validate () {
       this.$refs.clientForm.validate()
         .then((response) => {
-          if(response === true) {
-            this.edited_client? this.updateClient(this.client) : this.createClient()
+          if (response === true) {
+            this.editedClient ? this.updateClient(this.client) : this.createClient()
           }
         })
     },
-    validateUniqueness(client) {
+    validateUniqueness (client) {
       this.$api.clients.validate(client)
-        .then(({data}) => {
-          if(data.uniqueness.phone) {
+        .then(({ data }) => {
+          if (data.uniqueness.phone) {
             this.uniqueness.phone = data.uniqueness.phone
             this.phoneUniq = false
-            }
-          else if(data.uniqueness.email) {
+          } else if (data.uniqueness.email) {
             this.uniqueness.email = data.uniqueness.email
             this.emailUniq = false
-            }
-          else {
+          } else {
             delete this.uniqueness.phone
             delete this.uniqueness.email
             this.phoneUniq = true
@@ -151,13 +149,13 @@ export default {
       this.$refs.clientFormDialog.show()
     },
     hide () {
-      this.$router.push({name: 'clients'})
+      this.$router.push({ name: 'clients' })
       this.$refs.clientFormDialog.hide()
     }
   },
-  created() {
-    if(this.edited_client) {
-      this.client = this.edited_client
+  created () {
+    if (this.editedClient) {
+      this.client = this.editedClient
       this.formAction = 'Update Client'
     } else {
       this.client = {}

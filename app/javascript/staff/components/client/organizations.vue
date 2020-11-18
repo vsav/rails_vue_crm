@@ -18,10 +18,11 @@
 export default {
   name: 'ClientOrganizationsTable',
   props: {
-    client: Object
+    editedClient: Object
   },
-  data() {
+  data () {
     return {
+      client: this.editedClient,
       pagination: {
         rowsPerPage: 10
       },
@@ -60,23 +61,23 @@ export default {
       ]
     }
   },
-  created() {
+  created () {
     this.fetchOrganizations()
   },
-  updated() {
+  updated () {
     this.client.organizations = this.selected
   },
   methods: {
-    fetchOrganizations() {
+    fetchOrganizations () {
       this.$api.organizations.index()
-        .then(({data}) => this.organizations = data)
-        .catch((error) => this.errors['fetch'] = error)
+        .then(({ data }) => { this.organizations = data.organizations })
+        .catch((error) => { this.errors.fetch = error })
       this.selectOrganizations()
     },
-    updateOrganizationsList(client) {
+    updateOrganizationsList (client) {
       this.loading = true
       this.$api.clients.update(client)
-        .catch((error) => this.errors['update'] = error)
+        .catch((error) => { this.errors.update = error })
         .finally(() => {
           this.loading = false
           this.hide()
@@ -86,10 +87,10 @@ export default {
       this.$refs.clientOrganizationsDialog.show()
     },
     hide () {
-      this.$router.push({name: 'clients'})
+      this.$router.push({ name: 'clients' })
       this.$refs.clientOrganizationsDialog.hide()
     },
-    selectOrganizations() {
+    selectOrganizations () {
       this.client.organizations.forEach(organization => {
         this.selected.push(organization)
       })

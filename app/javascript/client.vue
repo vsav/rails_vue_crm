@@ -13,7 +13,7 @@ import Loading from './packs/shared/components/loading'
 import ClientOrganizationsTable from './client/components/organization/table'
 
 export default {
-  data: function() {
+  data: function () {
     return {
       loading: false
     }

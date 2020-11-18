@@ -19,10 +19,11 @@
 export default {
   name: 'OrganizationClientsTable',
   props: {
-    organization: Object
+    editedOrganization: Object
   },
-  data() {
+  data () {
     return {
+      organization: this.editedOrganization,
       pagination: {
         rowsPerPage: 10
       },
@@ -54,23 +55,23 @@ export default {
       ]
     }
   },
-  created() {
+  created () {
     this.fetchClients()
   },
-  updated() {
+  updated () {
     this.organization.clients = this.selected
   },
   methods: {
-    fetchClients() {
+    fetchClients () {
       this.$api.clients.index()
-        .then(({data}) => this.clients = data.clients)
-        .catch((error) => this.errors['fetch'] = error)
+        .then(({ data }) => { this.clients = data.clients })
+        .catch((error) => { this.errors.fetch = error })
       this.selectClients()
     },
-    updateClientsList(organization) {
+    updateClientsList (organization) {
       this.loading = true
       this.$api.organizations.update(organization)
-        .catch((error) => this.errors['update'] = error)
+        .catch((error) => { this.errors.update = error })
         .finally(() => {
           this.loading = false
           this.hide()
@@ -80,10 +81,10 @@ export default {
       this.$refs.organizationClientsDialog.show()
     },
     hide () {
-      this.$router.push({name: 'organizations'})
+      this.$router.push({ name: 'organizations' })
       this.$refs.organizationClientsDialog.hide()
     },
-    selectClients() {
+    selectClients () {
       this.organization.clients.forEach(client => {
         this.selected.push(client)
       })
@@ -91,4 +92,3 @@ export default {
   }
 }
 </script>
-

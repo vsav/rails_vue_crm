@@ -7,13 +7,13 @@ axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content
 const adapter = axios.create({
   baseURL: '/clients',
   headers: {
-    'Accept': 'application/json'
+    Accept: 'application/json'
   }
 })
 
 const api = {
   profile: () => adapter.get('/profile'),
-  update_password: (profile) => adapter.patch(`/update_password`, { client: profile }),
+  update_password: (profile) => adapter.patch('/update_password', { client: profile }),
   sign_out: () => axios.get('/clients/sign_out'),
   organizations: {
     index: () => adapter.get('/organizations')

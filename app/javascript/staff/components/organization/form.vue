@@ -66,15 +66,15 @@
 </template>
 
 <script>
-import { validationRules } from "utils/validations"
-import { dadataClient } from "../../utils/dadataClient";
+import { validationRules } from 'utils/validations'
+import { DadataClient } from '../../utils/dadataClient'
 
 export default {
   name: 'OrganizationForm',
   props: {
-    edited_organization: Object
+    editedOrganization: Object
   },
-  data: function() {
+  data: function () {
     return {
       loading: false,
       uniqueness: {},
@@ -95,50 +95,48 @@ export default {
     }
   },
   methods: {
-    createOrganization() {
+    createOrganization () {
       this.loading = true
       const organization = this.organization
-      this.$api.organizations.create({organization})
-        .catch((error) => this.errors['create'] = error)
+      this.$api.organizations.create({ organization })
+        .catch((error) => { this.errors.create = error })
         .finally(() => {
           this.loading = false
           this.clearForm()
         })
     },
-    updateOrganization(organization) {
+    updateOrganization (organization) {
       this.loading = true
       this.$api.organizations.update(organization)
-        .catch((error) => this.errors['update'] = error)
+        .catch((error) => { this.errors.update = error })
         .finally(() => {
           this.loading = false
         })
     },
-    clearForm() {
+    clearForm () {
       this.organization.name = ''
       this.organization.structure = ''
       this.organization.inn = ''
       this.organization.ogrn = ''
     },
-    validate() {
+    validate () {
       this.$refs.organizationForm.validate()
         .then((response) => {
-          if(response === true) {
-            this.edited_organization? this.updateOrganization(this.organization) : this.createOrganization()
+          if (response === true) {
+            this.editedOrganization ? this.updateOrganization(this.organization) : this.createOrganization()
           }
         })
     },
-    validateUniqueness(organization) {
+    validateUniqueness (organization) {
       this.$api.organizations.validate(organization)
-        .then(({data}) => {
-          if(data.uniqueness.organization_name) {
+        .then(({ data }) => {
+          if (data.uniqueness.organization_name) {
             this.uniqueness.organization_name = data.uniqueness.organization_name
             this.organizationNameUniq = false
-          }
-          else if(data.uniqueness.inn) {
+          } else if (data.uniqueness.inn) {
             this.uniqueness.inn = data.uniqueness.inn
             this.innUniq = false
-          }
-          else {
+          } else {
             delete this.uniqueness.organization_name
             delete this.uniqueness.inn
             this.organizationNameUniq = true
@@ -150,33 +148,33 @@ export default {
       this.$refs.organizationFormDialog.show()
     },
     hide () {
-      this.$router.push({name: 'organizations'})
+      this.$router.push({ name: 'organizations' })
       this.$refs.organizationFormDialog.hide()
     },
-    populateFormFields(val) {
+    populateFormFields (val) {
       this.organization.name = val.data.name.short
       this.organization.structure = val.data.opf.short
       this.organization.inn = val.data.inn
       this.organization.ogrn = val.data.ogrn
     },
-    fetchDadataInfo(val, update, abort) {
+    fetchDadataInfo (val, update, abort) {
       if (val.length < 2) {
         abort()
         return
       }
       update(() => {
-        new dadataClient(val).then(result => {
+        new DadataClient(val).then(result => {
           this.dadataSuggestions = result.suggestions.map(suggestion => ({
             value: suggestion,
-            label: suggestion.value,
+            label: suggestion.value
           }))
         })
       })
     }
   },
-  created() {
-    if(this.edited_organization) {
-      this.organization = this.edited_organization
+  created () {
+    if (this.editedOrganization) {
+      this.organization = this.editedOrganization
       this.formAction = 'Update Organization'
     } else {
       this.organization = {}

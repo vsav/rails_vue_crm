@@ -14,11 +14,11 @@
       q-btn.q-ma-md.right(label="Create Equipment" color="primary" @click="showForm")
 </template>
 <script>
-import EquipmentForm from "./form";
+import EquipmentForm from './form'
 
 export default {
   name: 'EquipmentTable',
-  data() {
+  data () {
     return {
       pagination: {
         rowsPerPage: 10
@@ -56,37 +56,38 @@ export default {
       ]
     }
   },
-  created() {
+  created () {
     this.fetchEquipment()
   },
   methods: {
-    fetchEquipment() {
+    fetchEquipment () {
       this.$api.equipment.index()
-          .then(({data}) => this.equipmentList = data)
-          .catch((error) => this.errors['fetch'] = error)
+        .then(({ data }) => { this.equipmentList = data.equipment })
+        .catch((error) => { this.errors.fetch = error })
     },
-    deleteEquipment(equipment) {
-      const equipment_id = equipment.row.id
-      this.$api.equipment.delete(equipment_id)
-          .then(() => this.fetchEquipment())
-          .catch((error) => this.errors['delete'] = error)
+    deleteEquipment (equipment) {
+      const equipmentId = equipment.row.id
+      this.$api.equipment.delete(equipmentId)
+        .then(() => this.fetchEquipment())
+        .catch((error) => { this.errors.delete = error })
     },
-    setEquipment(equipment) {
+    setEquipment (equipment) {
       this.equipment = equipment
     },
-    showForm() {
+    showForm () {
+      this.$router.push({ name: 'new_equipment' })
       this.$q.dialog({
         component: EquipmentForm,
         parent: this
       })
     },
-    editEquipment(equipment) {
+    editEquipment (equipment) {
       this.setEquipment(equipment.row)
-      this.$router.push({ name: 'edit_equipment', params: {id: equipment.row.id }})
+      this.$router.push({ name: 'edit_equipment', params: { id: equipment.row.id } })
       this.$q.dialog({
         component: EquipmentForm,
         parent: this,
-        edited_equipment: this.equipment
+        editedEquipment: this.equipment
       })
     }
   }
