@@ -1,24 +1,7 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Учебный проект онлайн школы Thinknetica в рамках курса "Rails + VueJS - Современный фронтенд"
 
-Things you may want to cover:
+Небольшая CRM-система позволяющая управлять пользователями и организациями
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+В проекте используется сервис DaData для получения информации об организациях по ИНН/ОГРН и автозаполнения форм
